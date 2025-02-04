@@ -64,7 +64,7 @@ unsigned int	rgb_to_int(float red, float green, float blue)
 
 	// protect color overflow beyond 255
 	if (red > 1)
-		red = 1;
+			red = 1;
 	if (green > 1)
 		green = 1;
 	if (blue > 1)

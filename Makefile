@@ -1,6 +1,6 @@
 NAME = minirt
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -O2 -g3
 
 SRCS = main.c image.c vectors.c camera.c\
 		Objects/Sphere.c \
@@ -12,7 +12,9 @@ SRCS = main.c image.c vectors.c camera.c\
 		Matrix/inverse.c \
 		Matrix/minor.c \
 		Matrix/multiplication.c \
-		init_objects.c
+		init_objects.c \
+		Materials/Diffuse.c \
+		Materials/Specular.c 
 
 OBJS = $(SRCS:.c=.o)
 

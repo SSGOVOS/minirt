@@ -3,68 +3,36 @@
 
 void handle_cylinder();
 
-void prepare_objects(t_object *list)
+void prepare_objects(t_object *list, int obj_count)
 {
-	t_object *head = list;
 	
-	while (head)
+	int i = 0;
+	while (i < obj_count)
 	{
-		if (head->type == SPHERE)
+		if (list[i].type == SPHERE)
 		{
-			head->rotation = (t_vec3){0, 0, 0};
-			head->scale = (t_vec3) {head->radius,head->radius, head->radius};
-			head->gtfm = set_transform(&head->translation, &head->rotation, &head->scale);
-			head->intersect = test_sphere;
+			list[i].rotation = (t_vec3){0, 0, 0};
+			list[i].scale = (t_vec3) {list[i].radius,list[i].radius, list[i].radius};
+			list[i].gtfm = set_transform(&list[i].translation, &list[i].rotation, &list[i].scale);
+			list[i].intersect = test_sphere;
 		}
-		else if (head->type == PLANE)
+		else if (list[i].type == PLANE)
 		{
-			head->d_normal = normalize(head->d_normal);
-			head->intersect = test_plane;
+			list[i].d_normal = normalize(list[i].d_normal);
+			list[i].intersect = test_plane;
 		}
-		head = head->next;
+		i++;
 	}
 }
-
-t_object	*ft_lstlast(t_object *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-	{
-		if (!lst->next)
-			break ;
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-void	ft_lstadd_back(t_object **lst, t_object *new)
-{
-	t_object	*node;
-
-	if (new)
-	{
-		if (*lst)
-		{
-			node = ft_lstlast(*lst);
-			node->next = new;
-		}
-		else
-			*lst = new;
-	}
-}
-
 
 // parse to get this
-t_object *list_object()
+void list_object(t_vars* vars)
 {
-	t_object *list = NULL;
-	t_object *sphere = malloc(sizeof(t_object));
-	sphere->type = SPHERE;
-	sphere->base_color = (t_vec3){1, 0, 0}; // red
-	sphere->radius = 2;
-	sphere->translation = (t_vec3) {0, 0, -0.5};
-	sphere->next = NULL;
+	vars->objects = malloc(sizeof(t_object) * vars->obj_count);
+	vars->objects[0].type = SPHERE;
+	vars->objects[0].base_color = (t_vec3){1, 0, 0}; // red
+	vars->objects[0].radius = 2;
+	vars->objects[0].translation = (t_vec3) {0, 0, -0.5};
 	// plane
 	// t_object *plane = malloc(sizeof(t_object));
 	// plane->type = PLANE;
@@ -72,15 +40,9 @@ t_object *list_object()
 	// plane->translation = (t_vec3) {-1, 0, 0};
 	// plane->d_normal = (t_vec3) {1, 0, 0};
 	// plane->next = NULL;
-	t_object *plane2 = malloc(sizeof(t_object));
-	plane2->type = PLANE;
-	plane2->base_color = (t_vec3) {0.5, 0.5, 0.5}; // gray
-	plane2->translation = (t_vec3) {0, 0, 1.5};
-	plane2->d_normal = (t_vec3) {0, 0, -1};
-	plane2->next = NULL;
-	ft_lstadd_back(&list, sphere);
-	// ft_lstadd_back(&list, plane);
-	ft_lstadd_back(&list, plane2);
-	prepare_objects(list);
-	return (list);
+	vars->objects[1].type = PLANE;
+	vars->objects[1].base_color = (t_vec3) {0.5, 0.5, 0.5}; // gray
+	vars->objects[1].translation = (t_vec3) {0, 0, 1.5};
+	vars->objects[1].d_normal = (t_vec3) {0, 0, -1};
+	prepare_objects(vars->objects, 2);
 }

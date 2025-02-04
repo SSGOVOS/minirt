@@ -5,18 +5,18 @@
 
 
 
-int test_intersection(t_object *list, t_info* info, t_ray *ray)
+int test_intersection(t_object *list, t_info* info, t_ray *ray, int obj_count)
 {
 	float mindist = 1e6;
 	float dist;
 	int intfound = 0;
 	int validint = 0;
 	t_info	test;
-	t_object *head = list;
-	while (head)
+	int i = 0;
+	while (i < obj_count)
 	{
-		test.e = head;
-		validint = head->intersect(ray, &test);
+		test.e = list + i;
+		validint = list[i].intersect(ray, &test);
 		if (validint)
 		{
 			intfound = 1;
@@ -24,18 +24,18 @@ int test_intersection(t_object *list, t_info* info, t_ray *ray)
 			if (dist < mindist)
 			{
 				mindist = dist;
-				info->e = head; // current object
+				info->e = list + i; // current object
 				info->hitpoint = test.hitpoint;
 				info->localnormal = test.localnormal;
 			}
 		}
-		head = head->next;
+		i++;
 	}
 	return (intfound);
 }
 
 
-void raytrace(t_object *list, t_vars *vars)
+void raytrace(t_vars *vars)
 {
 	int x;
 	int y;
@@ -53,10 +53,17 @@ void raytrace(t_object *list, t_vars *vars)
 			float normx = ((float)x * xfact) - 1.0;
 			float normy = ((float)y * yfact) - 1.0;
 			t_ray ray = generate_ray(normx, normy, &vars->cam);
-			int intfound = test_intersection(list, &info, &ray);
+			int intfound = test_intersection(vars->objects, &info, &ray, vars->obj_count);
 			if (intfound)
 			{
-				color = info.e->base_color;
+				color = diffuse_color(&info, vars, &info.e->base_color);
+				#if BONUS
+					t_vec3 spec = specular_highlight(vars, &info, &ray);
+					color = vec_add(color, spec);
+				#endif
+				t_vec3 ambient = (t_vec3) {0.12,0.084,0.048};
+				// ambient = scale_vector(ambient, 0.2f);
+				color = vec_add(color, ambient);
 				set_pixel(x, y, &color, vars->image);
 			}
 			x++;
@@ -81,8 +88,13 @@ int main(int ac, char **av)
 	vars.cam.fov = 60;
 	setup_camera(&vars.cam);
 	vars.image = new_image();
-	t_object *list = list_object();
-	raytrace(list, &vars);
+	vars.obj_count = 2;
+	list_object(&vars);
+	vars.lights = malloc(sizeof(t_light));
+	vars.lights[0].brightness = 1;
+	vars.lights[0].color = (t_vec3) {1 ,1, 1};
+	vars.lights[0].position = (t_vec3) {5 ,-3, -3};
+	raytrace(&vars);
 	render(vars.image, vars.mlx_ptr, vars.win_ptr);
 	mlx_loop(vars.mlx_ptr);
 }

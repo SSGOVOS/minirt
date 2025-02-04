@@ -21,9 +21,10 @@
 # define M_PI 3.14159265358979323846
 # define HALFPI 1.5708
 # define FLT_MAX 3.40282346638528859811704183484516925e+38F
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1920
+# define HEIGHT 1080
 # define EPSILON 1e-21f
+# define  BONUS 1
 
 typedef struct s_vec3
 {
@@ -88,16 +89,7 @@ typedef struct s_data
 }	t_data;
 
 
-typedef struct s_vars
-{
-	void			*mlx_ptr;
-	void			*win_ptr;
-	t_image			*image;
-	t_camera		cam;
-	t_vec3			*buffer; // stacking images , later
-	unsigned int	rng_state;
-	int				frames; // frames to stack for antialiasing (max 120)
-}	t_vars;
+
 
 typedef struct s_info
 {
@@ -117,8 +109,28 @@ typedef struct s_object
 	t_matrix** gtfm;
 	t_vec3		d_normal; // used for plane and cylinder and cone
 	int			(*intersect)(t_ray*, struct s_info *);
-	struct s_object	*next;
 } t_object;
+
+typedef struct s_light
+{
+	t_vec3	position;
+	t_vec3	color;
+	float	brightness;
+}			t_light;
+
+typedef struct s_vars
+{
+	void			*mlx_ptr;
+	void			*win_ptr;
+	t_image			*image;
+	t_camera		cam;
+	t_vec3			*buffer; // stacking images , later
+	unsigned int	rng_state;
+	int				frames; // frames to stack for antialiasing (max 120)
+	int obj_count;
+	t_object* objects;
+	t_light* lights;
+}	t_vars;
 
 
 // vectors
@@ -169,5 +181,10 @@ t_vec3	apply_transform_vector(t_vec3 inputVector, int dirFlag, t_matrix **gtfm);
 t_ray	apply_transform(t_ray *input_ray, t_matrix **gtfm, int dirFlag);
 int test_sphere(t_ray * ray,  struct s_info *info);
 int	test_plane(t_ray *ray, t_info *info);
-t_object *list_object();
+void list_object(t_vars* vars);
+// diffuse
+t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color);
+t_vec3	reflect(t_vec3 d, t_vec3 normal);
+// specular
+t_vec3	specular_highlight(t_vars *vars, t_info *info, t_ray *camera_ray);
 #endif

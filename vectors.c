@@ -71,3 +71,9 @@ t_vec3 vec_add(t_vec3 a, t_vec3 b)
 	return ((t_vec3){a.x + b.x, a.y + b.y, a.z + b.z});
 }
 
+// bach jay bach dayr
+t_vec3	reflect(t_vec3 d, t_vec3 normal)
+{
+	return (normalize(vec_sub(d,
+				scale_vector(normal, 2.0f * dot_product(d, normal)))));
+}
