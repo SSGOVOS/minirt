@@ -1,5 +1,4 @@
 #include "../main.h"
-#include <stdio.h>
 
 
 static int	cast_ray(t_ray *lightray, t_vars *vars,
@@ -79,18 +78,14 @@ t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color)
 
 	i = 0;
 	// for bonus replace 1 with light count
-	while (i < 1)
+	validillum = compute_illimunation(&vars->lights[i],
+			info, vars, &intensity);
+	if (validillum)
 	{
-		validillum = compute_illimunation(&vars->lights[i],
-				info, vars, &intensity);
-		if (validillum)
-		{
-			illumfound = 1;
-			color.x += vars->lights[i].color.x * intensity;
-			color.y += vars->lights[i].color.y * intensity;
-			color.z += vars->lights[i].color.z * intensity;
-		}
-		i++;
+		illumfound = 1;
+		color.x += vars->lights[i].color.x * intensity;
+		color.y += vars->lights[i].color.y * intensity;
+		color.z += vars->lights[i].color.z * intensity;
 	}
 	if (illumfound)
 	{

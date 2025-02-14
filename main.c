@@ -57,10 +57,6 @@ void raytrace(t_vars *vars)
 			if (intfound)
 			{
 				color = diffuse_color(&info, vars, &info.e->base_color);
-				#if BONUS
-					t_vec3 spec = specular_highlight(vars, &info, &ray);
-					color = vec_add(color, spec);
-				#endif
 				t_vec3 ambient = (t_vec3) {0.12,0.084,0.048};
 				// ambient = scale_vector(ambient, 0.2f);
 				color = vec_add(color, ambient);
@@ -83,9 +79,9 @@ int main(int ac, char **av)
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr,
 		WIDTH, HEIGHT, "miniRT");
 	// init camera values
-	vars.cam.origin = (t_vec3) {1, -7, 0.5};
+	vars.cam.origin = (t_vec3) {1, -15, 0.5};
 	vars.cam.lookat = (t_vec3) {0, 0, 0};
-	vars.cam.fov = 60;
+	vars.cam.fov = 45;
 	setup_camera(&vars.cam);
 	vars.image = new_image();
 	vars.obj_count = 2;
@@ -93,7 +89,7 @@ int main(int ac, char **av)
 	vars.lights = malloc(sizeof(t_light));
 	vars.lights[0].brightness = 1;
 	vars.lights[0].color = (t_vec3) {1 ,1, 1};
-	vars.lights[0].position = (t_vec3) {5 ,-3, -3};
+	vars.lights[0].position = (t_vec3) {3 ,-10, -5};
 	raytrace(&vars);
 	render(vars.image, vars.mlx_ptr, vars.win_ptr);
 	mlx_loop(vars.mlx_ptr);

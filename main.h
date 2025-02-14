@@ -24,7 +24,8 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define EPSILON 1e-21f
-# define  BONUS 1
+# define  BACKWARD 0
+# define  FORWARD 1
 
 typedef struct s_vec3
 {
@@ -142,6 +143,7 @@ t_vec3 normalize(t_vec3 vec);
 void	print_vector(t_vec3 a);
 t_vec3 vec_sub(t_vec3 a, t_vec3 b);
 t_vec3 vec_add(t_vec3 a, t_vec3 b);
+t_vec3	get_rotation_vector(t_vec3 normal);
 // camera
 void setup_camera(t_camera *cam);
 t_ray new_ray(t_vec3 point1, t_vec3 point2);
@@ -185,6 +187,9 @@ void list_object(t_vars* vars);
 // diffuse
 t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color);
 t_vec3	reflect(t_vec3 d, t_vec3 normal);
-// specular
-t_vec3	specular_highlight(t_vars *vars, t_info *info, t_ray *camera_ray);
+
+// cylinder
+float	get_min(float *t, int *min_index, int size);
+int	calculate_props(int min_index, t_vec3 *poi, t_info *info, t_vec3 *vhat);
+int	test_cylinder(t_ray *ray, t_info *info);
 #endif

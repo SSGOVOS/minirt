@@ -28,14 +28,14 @@ float	get_dist(t_vec3 ray_org, t_vec3 vhat) // vhat is the ray dir normalized
 
 int test_sphere(t_ray * ray,  struct s_info *info)
 {
-	t_ray backray = apply_transform(ray, info->e->gtfm, 0);
+	t_ray backray = apply_transform(ray, info->e->gtfm, BACKWARD);
 	t_vec3 vhat = backray.dir;
 	float t = get_dist(backray.point1, vhat);
 	if (t == FLT_MAX)
 		return (0);
 	// int point = ray = origin + dir * t (t is found now)
 	t_vec3 localint = vec_add(backray.point1, scale_vector(vhat, t));
-	info->hitpoint = apply_transform_vector(localint, 1, info->e->gtfm);
+	info->hitpoint = apply_transform_vector(localint, FORWARD, info->e->gtfm);
 	// transform the inpoint to world coordinates
 	info->localnormal = normalize(info->hitpoint);
 	// normal of sphere is normalized(hitpoint - sphere origin)

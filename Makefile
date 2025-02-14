@@ -5,6 +5,8 @@ CFLAGS = -Wall -Wextra -Werror -O2 -g3
 SRCS = main.c image.c vectors.c camera.c\
 		Objects/Sphere.c \
 		Objects/Plane.c \
+		Objects/Cylinder.c \
+		Objects/Cylinder_utils.c \
 		Transformation/Gtfm.c \
 		Transformation/setup.c \
 		Matrix/init.c \
@@ -14,7 +16,6 @@ SRCS = main.c image.c vectors.c camera.c\
 		Matrix/multiplication.c \
 		init_objects.c \
 		Materials/Diffuse.c \
-		Materials/Specular.c 
 
 OBJS = $(SRCS:.c=.o)
 
