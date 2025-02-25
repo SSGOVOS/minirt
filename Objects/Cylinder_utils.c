@@ -2,23 +2,15 @@
 
 static void	handle_caps(t_info *info, t_vec3 *poi)
 {
-	t_vec3	orgnormal;
-
 	info->hitpoint = apply_transform_vector(*poi,
 			FORWARD, info->e->gtfm);
-	orgnormal = (t_vec3){0, 0, poi->z};
-	// t_vec3 globalnormal = apply_transform_vector(orgnormal, FORWARD, info->e->gtfm);
-	
 	info->localnormal = info->e->d_normal;
 }
 int	calculate_props(int min_index, t_vec3 *poi, t_info *info, t_vec3 *vhat)
 {
-	t_vec3	orgnormal;
-
 	if (min_index < 2)
 	{
 		info->hitpoint = apply_transform_vector(*poi, FORWARD, info->e->gtfm);
-		orgnormal = (t_vec3){poi->x, poi->y, 0};
 		// info->localnormal = fixed_normal(info->e->gtfm[0], &orgnormal);
 		info->localnormal = normalize(vec_sub(info->hitpoint, info->e->translation));
 		return (1);

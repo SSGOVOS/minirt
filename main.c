@@ -89,7 +89,7 @@ int main(int ac, char **av)
 	vars.lights = malloc(sizeof(t_light));
 	vars.lights[0].brightness = 1;
 	vars.lights[0].color = (t_vec3) {1 ,1, 1};
-	vars.lights[0].position = (t_vec3) {3 ,-10, -5};
+	vars.lights[0].position = (t_vec3) {2 ,-3, -6};
 	raytrace(&vars);
 	render(vars.image, vars.mlx_ptr, vars.win_ptr);
 	mlx_loop(vars.mlx_ptr);

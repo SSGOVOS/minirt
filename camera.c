@@ -28,6 +28,6 @@ t_ray new_ray(t_vec3 point1, t_vec3 point2)
 t_ray generate_ray(float x, float y, t_camera *cam)
 {
 	t_vec3 part1 = vec_add(cam->screen_center, scale_vector(cam->screen_u, x));
-	t_vec3 part2 = vec_add(part1, scale_vector(cam->screen_v, y));	
+	t_vec3 part2 = vec_add(part1, scale_vector(cam->screen_v, y));
 	return new_ray(cam->origin, part2);
 }

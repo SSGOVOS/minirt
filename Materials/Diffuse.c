@@ -83,9 +83,9 @@ t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color)
 	if (validillum)
 	{
 		illumfound = 1;
-		color.x += vars->lights[i].color.x * intensity;
-		color.y += vars->lights[i].color.y * intensity;
-		color.z += vars->lights[i].color.z * intensity;
+		color.x = vars->lights[i].color.x * intensity;
+		color.y = vars->lights[i].color.y * intensity;
+		color.z = vars->lights[i].color.z * intensity;
 	}
 	if (illumfound)
 	{

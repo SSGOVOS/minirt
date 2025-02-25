@@ -37,7 +37,7 @@ int test_sphere(t_ray * ray,  struct s_info *info)
 	t_vec3 localint = vec_add(backray.point1, scale_vector(vhat, t));
 	info->hitpoint = apply_transform_vector(localint, FORWARD, info->e->gtfm);
 	// transform the inpoint to world coordinates
-	info->localnormal = normalize(info->hitpoint);
+	info->localnormal = normalize(vec_sub(info->hitpoint, info->e->translation));
 	// normal of sphere is normalized(hitpoint - sphere origin)
 	// for sphere at 0.0.0 just normalized(hitpoint)
 	return 1;

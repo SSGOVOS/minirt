@@ -35,6 +35,7 @@ typedef struct s_vec3
 }	t_vec3;
 
 
+
 enum
 {
 	SPHERE,

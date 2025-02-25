@@ -37,10 +37,10 @@ void prepare_objects(t_object *list, int obj_count)
 void list_object(t_vars* vars)
 {
 	vars->objects = malloc(sizeof(t_object) * vars->obj_count);
-	// vars->objects[0].type = SPHERE;
-	// vars->objects[0].base_color = (t_vec3){1, 0, 0}; // red
-	// vars->objects[0].radius = 2;
-	// vars->objects[0].translation = (t_vec3) {0, 0, -0.5};
+	vars->objects[0].type = SPHERE;
+	vars->objects[0].base_color = (t_vec3){1, 0, 0}; // red
+	vars->objects[0].radius = 2;
+	vars->objects[0].translation = (t_vec3) {0, -3, -0.5};
 	// plane
 	// t_object *plane = malloc(sizeof(t_object));
 	// plane->type = PLANE;
@@ -53,11 +53,11 @@ void list_object(t_vars* vars)
 	vars->objects[1].translation = (t_vec3) {0, 0, 1.5};
 	vars->objects[1].d_normal = (t_vec3) {0, 0, -1};
 	// cylinder
-	vars->objects[0].type = CYLINDER;
-	vars->objects[0].base_color = (t_vec3){0, 1, 0}; // green
-	vars->objects[0].radius = 2;
-	vars->objects[0].translation = (t_vec3) {0, 0, -0.5};
-	vars->objects[0].d_normal = (t_vec3) {1, 1, 0};
+	// vars->objects[0].type = CYLINDER;
+	// vars->objects[0].base_color = (t_vec3){0, 1, 0}; // green
+	// vars->objects[0].radius = 2;
+	// vars->objects[0].translation = (t_vec3) {0, 0, -0.5};
+	// vars->objects[0].d_normal = (t_vec3) {1, 1, 0};
 
 	prepare_objects(vars->objects, vars->obj_count);
 }
