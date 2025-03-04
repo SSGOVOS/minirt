@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:39 by amoubine          #+#    #+#             */
-/*   Updated: 2025/01/16 11:31:40 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:58:57 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,4 @@ t_vec3	get_rotation_vector(t_vec3 normal)
 	z = atan2(normal.x, normal.y);
 	return ((t_vec3){x, y, z});
 }
+

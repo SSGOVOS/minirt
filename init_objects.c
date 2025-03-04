@@ -5,7 +5,6 @@ void handle_cylinder();
 
 void prepare_objects(t_object *list, int obj_count)
 {
-	
 	int i = 0;
 	while (i < obj_count)
 	{
@@ -24,8 +23,8 @@ void prepare_objects(t_object *list, int obj_count)
 		else if (list[i].type == CYLINDER)
 		{
 			list[i].d_normal = normalize(list[i].d_normal);
-			list[i].rotation = get_rotation_vector(list[i].d_normal);
-			list[i].scale = (t_vec3){list[i].radius, list[i].radius, 3};
+			list[i].rotation = get_rotation_vector(list[i].d_normal); // {angle on x, angle on y, angle on z} ==> get a rotation matrix based on these angles
+			list[i].scale = (t_vec3){list[i].radius, list[i].radius, 2};
 			list[i].gtfm = set_transform(&list[i].translation, &list[i].rotation, &list[i].scale);
 			list[i].intersect = test_cylinder;
 		}
@@ -39,8 +38,8 @@ void list_object(t_vars* vars)
 	vars->objects = malloc(sizeof(t_object) * vars->obj_count);
 	vars->objects[0].type = SPHERE;
 	vars->objects[0].base_color = (t_vec3){1, 0, 0}; // red
-	vars->objects[0].radius = 2;
-	vars->objects[0].translation = (t_vec3) {0, -3, -0.5};
+	vars->objects[0].radius = 1;
+	vars->objects[0].translation = (t_vec3) {-3, -3, -0.5};
 	// plane
 	// t_object *plane = malloc(sizeof(t_object));
 	// plane->type = PLANE;
@@ -49,15 +48,15 @@ void list_object(t_vars* vars)
 	// plane->d_normal = (t_vec3) {1, 0, 0};
 	// plane->next = NULL;
 	vars->objects[1].type = PLANE;
-	vars->objects[1].base_color = (t_vec3) {0.5, 0.5, 0.5}; // gray
+	vars->objects[1].base_color = (t_vec3) {1, 1, 1}; // gray
 	vars->objects[1].translation = (t_vec3) {0, 0, 1.5};
-	vars->objects[1].d_normal = (t_vec3) {0, 0, -1};
+	vars->objects[1].d_normal = (t_vec3) {0, 0, 1};
 	// cylinder
-	// vars->objects[0].type = CYLINDER;
-	// vars->objects[0].base_color = (t_vec3){0, 1, 0}; // green
-	// vars->objects[0].radius = 2;
-	// vars->objects[0].translation = (t_vec3) {0, 0, -0.5};
-	// vars->objects[0].d_normal = (t_vec3) {1, 1, 0};
+	vars->objects[2].type = CYLINDER;
+	vars->objects[2].base_color = (t_vec3){0, 1, 0}; // green
+	vars->objects[2].radius = 1;
+	vars->objects[2].translation = (t_vec3) {0, 0, -1.5};
+	vars->objects[2].d_normal = (t_vec3) {0, 0, 1};
 
 	prepare_objects(vars->objects, vars->obj_count);
 }

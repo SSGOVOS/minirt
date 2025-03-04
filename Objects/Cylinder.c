@@ -14,11 +14,11 @@ int	get_t2(t_ray *back_ray, t_vec3 *vhat, float *t, t_vec3 *poi)
 	a = powf(vhat->x, 2) + powf(vhat->y, 2);
 	b = 2.0 * (p.x * vhat->x + p.y * vhat->y);
 	c = powf(p.x, 2) + powf(p.y, 2) - 1.0;
-	delta = sqrtf(powf(b, 2) - (4.0 * a * c));
+	delta = powf(b, 2) - (4.0 * a * c);
 	if (delta > 0.0)
 	{
-		t[0] = (-b + delta) / (2.0f * a);
-		t[1] = (-b - delta) / (2.0f * a);
+		t[0] = (-b + sqrtf(delta)) / (2.0f * a);
+		t[1] = (-b - sqrtf(delta)) / (2.0f * a);
 		poi[0] = vec_add(back_ray->point1, scale_vector(*vhat, t[0]));
 		poi[1] = vec_add(back_ray->point1, scale_vector(*vhat, t[1]));
 		return (1);

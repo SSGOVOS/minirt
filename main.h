@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/01/16 12:57:26 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:21:10 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define M_PI 3.14159265358979323846
 # define HALFPI 1.5708
 # define FLT_MAX 3.40282346638528859811704183484516925e+38F
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1280
+# define HEIGHT 720
 # define EPSILON 1e-21f
 # define  BACKWARD 0
 # define  FORWARD 1
