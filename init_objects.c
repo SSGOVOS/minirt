@@ -35,28 +35,29 @@ void prepare_objects(t_object *list, int obj_count)
 // parse to get this
 void list_object(t_vars* vars)
 {
-	vars->objects = malloc(sizeof(t_object) * vars->obj_count);
-	vars->objects[0].type = SPHERE;
-	vars->objects[0].base_color = (t_vec3){1, 0, 0}; // red
-	vars->objects[0].radius = 1.5;
-	vars->objects[0].translation = (t_vec3) {-3, -3, -0.5};
-	// plane
-	// t_object *plane = malloc(sizeof(t_object));
-	vars->objects[3].type = SPHERE;
-	vars->objects[3].base_color = (t_vec3){0, 1, 0}; // red
-	vars->objects[3].radius = 0.5;
-	vars->objects[3].translation = (t_vec3) {-5, -6, -0.5};
+	
+	// vars->objects = malloc(sizeof(t_object) * vars->obj_count);
+	// vars->objects[0].type = SPHERE;
+	// vars->objects[0].base_color = (t_vec3){1, 0, 0}; // red
+	// vars->objects[0].radius = 1.5;
+	// vars->objects[0].translation = (t_vec3) {-3, -3, -0.5};
+	// // plane
+	// // t_object *plane = malloc(sizeof(t_object));
+	// vars->objects[3].type = SPHERE;
+	// vars->objects[3].base_color = (t_vec3){0, 1, 0}; // red
+	// vars->objects[3].radius = 0.5;
+	// vars->objects[3].translation = (t_vec3) {-5, -6, -0.5};
 
-	vars->objects[1].type = PLANE;
-	vars->objects[1].base_color = (t_vec3) {1, 1, 1}; // gray
-	vars->objects[1].translation = (t_vec3) {0, 0, 1.5};
-	vars->objects[1].d_normal = (t_vec3) {0, 0, 1};
-	// cylinder
-	vars->objects[2].type = CYLINDER;
-	vars->objects[2].base_color = (t_vec3){0, 1, 1}; // blue
-	vars->objects[2].radius = 1;
-	vars->objects[2].translation = (t_vec3) {2, -4, -1.5};
-	vars->objects[2].d_normal = (t_vec3) {0 ,0, 1};
+	// vars->objects[1].type = PLANE;
+	// vars->objects[1].base_color = (t_vec3) {1, 1, 1}; // gray
+	// vars->objects[1].translation = (t_vec3) {0, 0, 1.5};
+	// vars->objects[1].d_normal = (t_vec3) {0, 0, 1};
+	// // cylinder
+	// vars->objects[2].type = CYLINDER;
+	// vars->objects[2].base_color = (t_vec3){0, 1, 1}; // blue
+	// vars->objects[2].radius = 1;
+	// vars->objects[2].translation = (t_vec3) {2, -4, -1.5};
+	// vars->objects[2].d_normal = (t_vec3) {0 ,0, 1};
 
 	prepare_objects(vars->objects, vars->obj_count);
 }
