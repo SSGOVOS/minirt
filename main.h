@@ -53,13 +53,13 @@ typedef struct s_matrix
 
 typedef struct s_camera
 {
-	t_vec3	origin; // parse
-	t_vec3	lookat; // parse
+	t_vec3	origin; // parse *
+	t_vec3	lookat; // parse *
 	t_vec3	camera_w; // forward unit vector of the camera
 	t_vec3	camera_u; // right unit vector of the camera
 	t_vec3	camera_v; // up unit vector of the camera
 	t_vec3	screen_center; // center of the screen facing the camera
-	float	fov; // fov parse in degree
+	float	fov; // fov parse in degree *
 	float	aspect_ratio; // aspect ratio of the screen (width / height)
 	float	horizontal_size; // width of the screen
 	t_vec3 screen_u; // right vector of screen center
@@ -102,12 +102,13 @@ typedef struct s_info
 
 typedef struct s_object
 {
-	int			type;
-	t_vec3		base_color;
-	float		radius; // only used in sphere
-	t_vec3		translation;
+	int			type; // *
+	t_vec3		base_color; //* 
+	float		radius; // only used in sphere *
+	t_vec3		translation; // *
 	t_vec3		rotation;
 	t_vec3		scale;
+	float		height;
 	t_matrix** gtfm;
 	t_vec3		d_normal; // used for plane and cylinder and cone
 	int			(*intersect)(t_ray*, struct s_info *);
