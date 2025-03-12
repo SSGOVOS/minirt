@@ -1,6 +1,6 @@
-#include "../minirt.h"
+#include "../../main.h"
 
-void	init_data(t_rt *rt)
+void init_data(t_rt *rt)
 {
 	(void)rt;
 	//

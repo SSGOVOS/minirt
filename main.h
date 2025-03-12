@@ -17,7 +17,10 @@
 # include <stdio.h>
 # include <math.h>
 # include <stdlib.h>
-# include <mlx.h>
+# include "mlx_linux/mlx.h"
+# include <unistd.h>
+# include "libft/libft.h"
+#include <fcntl.h>
 
 # define M_PI 3.14159265358979323846
 # define HALFPI 1.5708
@@ -34,7 +37,6 @@ typedef struct s_vec3
 	float y;
 	float z;
 }	t_vec3;
-
 
 
 enum
@@ -98,6 +100,9 @@ typedef struct s_info
 	t_vec3			localnormal;
 }				t_info;
 
+
+
+
 typedef struct s_object
 {
 	int			type; // *
@@ -112,23 +117,8 @@ typedef struct s_object
 	int			(*intersect)(t_ray*, struct s_info *);
 } t_object;
 
-typedef struct s_light
-{
-	t_vec3	position;
-	t_vec3	color;
-	float	brightness;
-}			t_light;
 
-typedef struct s_vars
-{
-	void			*mlx_ptr;
-	void			*win_ptr;
-	t_image			*image;
-	t_camera		cam;
-	int obj_count;
-	t_object* objects;
-	t_light* lights;
-}	t_vars;
+
 
 //parse_structs ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -153,11 +143,29 @@ typedef struct s_color
 	double	b;
 }	t_color;
 
-typedef struct t_ray
+
+typedef struct s_sphere
 {
-	t_vector	origin;
+	t_vector	position;
+	double		diameter;
+	t_color		color;
+}	t_sphere;
+
+typedef struct s_plane
+{
+	t_vector	position;
 	t_vector	direction;
-}	t_ray_parse;
+	t_color		color;
+}	t_plane;
+
+typedef struct s_cylinder
+{
+	t_vector	position;
+	t_vector	direction;
+	double		diameter;
+	double		height;
+	t_color		color;
+}	t_cylinder;
 
 typedef struct s_ambient
 {
@@ -165,12 +173,12 @@ typedef struct s_ambient
 	t_color	color;
 }	t_ambient;
 
-typedef struct t_light
+typedef struct s_light
 {
 	t_vector	position;
 	t_color		color;
 	double		brightness;
-}	t_light_parse;
+}	t_light;
 
 typedef struct s_img
 {
@@ -190,13 +198,13 @@ typedef struct t_camera
 	double		fov;
 }	t_camera_parse;
 
-typedef struct t_object
+typedef struct s_object_parse
 {
 	t_type		type;
 	void		*object;
 	t_color		color;
 	t_vector	position;
-	t_object	*next;
+	struct s_object_parse	*next;
 }	t_object_parse;
 
 typedef struct s_rt
@@ -212,6 +220,18 @@ typedef struct s_rt
 	t_light		light;
 	t_object_parse	*object;
 }	t_rt;
+
+typedef struct s_vars
+{
+	void			*mlx_ptr;
+	void			*win_ptr;
+	t_image			*image;
+	t_camera		cam;
+	int obj_count;
+	t_object* objects;
+	t_light* lights;
+	t_ambient ambient;
+}	t_vars;
 
 // vectors
 float dot_product(t_vec3 a, t_vec3 b);
@@ -262,7 +282,7 @@ t_vec3	apply_transform_vector(t_vec3 inputVector, int dirFlag, t_matrix **gtfm);
 t_ray	apply_transform(t_ray *input_ray, t_matrix **gtfm, int dirFlag);
 int test_sphere(t_ray * ray,  struct s_info *info);
 int	test_plane(t_ray *ray, t_info *info);
-void list_object(t_vars* vars);
+void list_object(t_vars* vars, t_rt *rt);
 // diffuse
 t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color);
 t_vec3	reflect(t_vec3 d, t_vec3 normal);
@@ -275,14 +295,14 @@ int	test_cylinder(t_ray *ray, t_info *info);
 
 //parse_functions --------------------------------------------------------------------------------------------------------------------------
 
-void			ft_add_back(t_object **list, t_object *new, int type);
+void			ft_add_back(t_object_parse **list, t_object_parse *new, int type);
 int				check_file(t_rt *rt);
 void			list_objects(t_rt *rt);
 int				arg_error(char *msg);
 int				is_rt_file(char *path);
 int				destroy(t_rt *rt);
 void			open_file(t_rt *rt, char *path);
-void			free_objects(t_object *object);
+void			free_objects(t_object_parse *object);
 int				main(int ac, char **av);
 int				parse(t_rt *rt);
 double			atoi_double(char *str);
@@ -294,15 +314,15 @@ int				check_range(char *line, int count, const int range[2]);
 void			set_direction(char *line, t_vector *directions);
 void			set_rgb(char *line, t_color *colors);
 int				parse_sphere(t_rt *rt, char *line);
-void			set_sphere(char **line, t_object **object);
+void			set_sphere(char **line, t_object_parse **object);
 int				parse_plane(t_rt *rt, char *line);
-void			set_plane(char **line, t_object **object);
+void			set_plane(char **line, t_object_parse **object);
 int				parse_cylinder(t_rt *rt, char *line);
-void			set_cylinder(char **line, t_object **object);
+void			set_cylinder(char **line, t_object_parse **object);
 int				parse_ambient(t_rt *rt, char *line);
 void			set_ambient(char **line, t_ambient *ambient);
 int				parse_camera(t_rt *rt, char *line);
-void			set_camera(char **line, t_camera *camera);
+void			set_camera(char **line, t_camera_parse *camera);
 
 // Debugging functions
 // void			show_sphere(t_sphere *sphere);

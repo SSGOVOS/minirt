@@ -1,6 +1,6 @@
-#include "../minirt.h"
+#include "../../main.h"
 
-int	destroy(t_rt *rt)
+int destroy(t_rt *rt)
 {
 	if (rt == NULL)
 	{
@@ -21,11 +21,7 @@ int	destroy(t_rt *rt)
 		mlx_destroy_display(rt->mlx);
 	if (rt->mlx)
 		free(rt->mlx);
-	if (rt->object)
-		free_objects(rt->object);
-	if (rt->file_fd > 0)
-		close(rt->file_fd);
-	free(rt);
+	
 	exit(0);
 }
 
@@ -37,14 +33,13 @@ unsigned int random_int(int state)
 	return (lcg_seed % 0xFFFFFF);
 }
 
-void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
+void my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
 	char *pxl;
 
 	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
-		pxl = data->addr + (y * data->line_length
-				+ x * (data->bits_per_pixel / 8));
+		pxl = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 		*(unsigned int *)pxl = color;
 	}
 }
@@ -235,29 +230,8 @@ void	init_rays(t_rt *rt, int width, int height)
 	}
 }*/
 
-void ft_add_back(t_object **list, t_object *new, int type)
-{
-	t_object	*temp;
 
-	if (new == NULL)
-		return;
-	new->type = type;
-	if (*list == NULL)
-	{
-		*list = new;
-		new->next = NULL;
-	}
-	else
-	{
-		temp = *list;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = new;
-		new->next = NULL;
-	}
-}
-
-void	render(t_rt *rt, int width, int height)
+void render(t_rt *rt, int width, int height)
 {
 	(void)width;
 	(void)height;
@@ -268,7 +242,7 @@ void	render(t_rt *rt, int width, int height)
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img.img, 0, 0);
 }
 
-int	key_hook(int keycode, t_rt *rt)
+int key_hook(int keycode, t_rt *rt)
 {
 	printf("keycode: %d\n", keycode);
 	if (keycode == 65307)
@@ -285,16 +259,16 @@ int	key_hook(int keycode, t_rt *rt)
 	return (0);
 }
 
-int	is_hit(t_rt *rt, int x, int y)
+int is_hit(t_rt *rt, int x, int y)
 {
 	(void)rt;
-	int	r;
-	int	x1;
-	int	y1;
+	int r;
+	int x1;
+	int y1;
 
 	r = 100;
 	x1 = WIDTH / 2;
-	y1= HEIGHT / 2;
+	y1 = HEIGHT / 2;
 
 	if ((x - x1) * (x - x1) + (y - y1) * (y - y1) <= r * r)
 		return (1);
@@ -303,7 +277,7 @@ int	is_hit(t_rt *rt, int x, int y)
 
 int main(int ac, char **av)
 {
-	t_rt	*rt;
+	t_rt *rt;
 
 	if (ac != 2)
 	{
@@ -320,7 +294,7 @@ int main(int ac, char **av)
 	rt->win = mlx_new_window(rt->mlx, WIDTH, HEIGHT, "miniRT");
 	rt->img.img = mlx_new_image(rt->mlx, WIDTH, HEIGHT);
 	rt->img.addr = mlx_get_data_addr(rt->img.img, &rt->img.bits_per_pixel,
-			&rt->img.line_length, &rt->img.endian);
+									 &rt->img.line_length, &rt->img.endian);
 	rt->object_count = 0;
 	open_file(rt, av[1]);
 	render(rt, WIDTH, HEIGHT);

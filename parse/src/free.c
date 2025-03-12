@@ -1,8 +1,8 @@
-#include "../minirt.h"
+#include "../../main.h"
 
-void	free_array(char *arr[])
+void free_array(char *arr[])
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (arr)
@@ -13,15 +13,15 @@ void	free_array(char *arr[])
 	}
 }
 
-void	free_objects(t_object *object)
+void free_objects(t_object *object)
 {
-	t_object	*temp;
+	t_object *temp;
 
 	while (object)
 	{
 		temp = object;
 		object = object->next;
-//		if (temp->type == SPHERE)
+		//		if (temp->type == SPHERE)
 		free(temp->object);
 		free(temp);
 	}

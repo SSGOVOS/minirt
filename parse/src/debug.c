@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../../main.h"
 
 // void	show_sphere(t_sphere *sphere)
 // {

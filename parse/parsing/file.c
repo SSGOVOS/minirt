@@ -10,20 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../../main.h"
 
-void	open_file(t_rt *rt, char *path)
+void open_file(t_rt *rt, char *path)
 {
 	rt->file_fd = open(path, O_RDONLY);
 	rt->file = path;
 	if (check_file(rt) == 1 || parse(rt) == 1)
 	{
 		close(rt->file_fd);
-		destroy(rt);
+		if (rt->object)
+			free_objects(rt->object);
+		if (rt->file_fd > 0)
+			close(rt->file_fd);
+		free(rt);
+		exit(1);
 	}
 }
 
-int	check_file(t_rt *rt)
+int check_file(t_rt *rt)
 {
 	if (rt->file == NULL)
 	{
@@ -43,9 +48,9 @@ int	check_file(t_rt *rt)
 	return (0);
 }
 
-int	is_rt_file(char *path)
+int is_rt_file(char *path)
 {
-	int	len;
+	int len;
 
 	len = (int)ft_strlen(path) - 3;
 	if (len > 3)

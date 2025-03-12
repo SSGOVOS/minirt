@@ -1,11 +1,11 @@
-#include "../minirt.h"
+#include "../../main.h"
 
 double atoi_double(char *str)
 {
-	double	result = 0.0;
-	double	fraction = 0.0;
-	double	divisor = 1.0;
-	int		sign = 1;
+	double result = 0.0;
+	double fraction = 0.0;
+	double divisor = 1.0;
+	int sign = 1;
 
 	if (ft_atoi(str) > INT_MAX)
 		return (0.0);

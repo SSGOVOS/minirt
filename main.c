@@ -1,5 +1,4 @@
 #include "main.h"
-#include <mlx.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -85,14 +84,12 @@ void raytrace(t_vars *vars)
 
 int main(int ac, char **av)
 {
-	(void) ac;
-	(void) av;
 	t_vars vars;
 	t_rt	*rt;
 
 	if (ac != 2)
 	{
-		// ft_putstr_fd("Error: invalid number of arguments\n", 2);
+		ft_putstr_fd("Error: invalid number of arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	rt = (t_rt *)malloc(sizeof(t_rt));
@@ -101,31 +98,20 @@ int main(int ac, char **av)
 		perror("Failed to allocate memory for t_rt");
 		exit(EXIT_FAILURE);
 	}
+	open_file(rt, av[1]);
 	vars.mlx_ptr = mlx_init();
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr,
 		WIDTH, HEIGHT, "miniRT");
-	rt->object_count = 0;
-	open_file(rt, av[1]);
-	parse_camera(rt , av[1]);
-	printf("camera origin : %f" , rt->camera.position.x);
-	printf("camera origin : %f" , rt->camera.position.y);
-	printf("camera origin : %f" , rt->camera.position.z);
+	t_camera cam;
+	cam.origin = (t_vec3){rt->camera.position.x, rt->camera.position.z, rt->camera.position.z};
+	cam.lookat = (t_vec3){rt->camera.orientation.x, rt->camera.orientation.z, rt->camera.orientation.z};
+	setup_camera(&cam);
+	vars.ambient = rt->ambient;
+	t_vec3 temp = (t_vec3){vars.ambient.color.r, vars.ambient.color.g, vars.ambient.color.b};
+	temp = scale_vector(temp, vars.ambient.lighting);
+	vars.ambient.color = (t_color){temp.x, temp.y, temp.z};
+	vars.lights = malloc(sizeof(t_light));
+	list_object(&vars, rt);
 
-	// init camera values
-	// vars.cam.origin = (t_vec3) {2, -20, -5};
-	// vars.cam.lookat = (t_vec3) {0, 0, 0};
-	// vars.cam.fov = 40;
-	// setup_camera(&vars.cam);
-	// vars.image = new_image();
-	// vars.obj_count = 4;
-	// list_object(&vars);
-	// vars.lights = malloc(sizeof(t_light));
-	// vars.lights[0].brightness = 1;
-	// vars.lights[0].color = (t_vec3) {1, 1, 1};
-	// vars.lights[0].position = (t_vec3) {0, -20, -5};
-	// raytrace(&vars);
-	// render(vars.image, vars.mlx_ptr, vars.win_ptr);
-	// mlx_hook(vars.win_ptr, 2, 1L << 0, key_hook, &vars);
-	// mlx_hook(vars.win_ptr, 17, 0, handle_exit, &vars);
-	// mlx_loop(vars.mlx_ptr);
+	return (0);
 }
