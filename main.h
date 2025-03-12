@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/12 16:46:45 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:04:37 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,12 +283,13 @@ int	test_plane(t_ray *ray, t_info *info);
 void list_object(t_vars* vars, t_rt *rt);
 // diffuse
 t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color);
-t_vec3	reflect(t_vec3 d, t_vec3 normal);
-
 // cylinder
 float	get_min(float *t, int *min_index, int size);
 int		calculate_props(int min_index, t_vec3 *poi, t_info *info, t_vec3 *vhat);
 int		test_cylinder(t_ray *ray, t_info *info);
+//free_utils
+void	free_objects(t_vars *vars);
+void	free_image(t_image *image);
 
 
 //parse_functions --------------------------------------------------------------------------------------------------------------------------
@@ -300,11 +301,11 @@ int				arg_error(char *msg);
 int				is_rt_file(char *path);
 int				destroy(t_rt *rt);
 void			open_file(t_rt *rt, char *path);
-void			free_objects(t_object_parse *object);
+void			free_objects_parse(t_object_parse *object);
 int				main(int ac, char **av);
 int				parse(t_rt *rt);
 double			atoi_double(char *str);
-void			free_array(char *arr[]);
+void			free_array_parse(char *arr[]);
 int				array_length(char **arr);
 void			parsing_error(char *msg);
 int				is_float(const char *c);

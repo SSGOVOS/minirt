@@ -38,7 +38,7 @@ void ft_add_back(t_object_parse **list, t_object_parse *new, int type)
 	}
 }
 
-void free_array(char *arr[])
+void free_array_parse(char *arr[])
 {
 	int i;
 
@@ -51,7 +51,7 @@ void free_array(char *arr[])
 	}
 }
 
-void free_objects(t_object_parse *object)
+void free_objects_parse(t_object_parse *object)
 {
 	t_object_parse *temp;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:59:01 by zelbassa          #+#    #+#             */
-/*   Updated: 2025/03/06 15:54:00 by zelbassa         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:59:50 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void open_file(t_rt *rt, char *path)
 	{
 		close(rt->file_fd);
 		if (rt->object)
-			free_objects(rt->object);
+			free_objects_parse(rt->object);
 		if (rt->file_fd > 0)
 			close(rt->file_fd);
 		free(rt);

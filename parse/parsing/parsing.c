@@ -40,7 +40,7 @@ void set_direction(char *line, t_vec3 *directions)
 	directions->x = atoi_double(xyz[0]);
 	directions->y = atoi_double(xyz[1]);
 	directions->z = atoi_double(xyz[2]);
-	free_array(xyz);
+	free_array_parse(xyz);
 }
 
 void set_rgb(char *line, t_color *colors)
@@ -51,7 +51,7 @@ void set_rgb(char *line, t_color *colors)
 	colors->r = (float)ft_atoi(rgb[0]) / 255.0f;
 	colors->g = (float)ft_atoi(rgb[1]) / 255.0f;
 	colors->b = (float)ft_atoi(rgb[2]) / 255.0f;
-	free_array(rgb);
+	free_array_parse(rgb);
 }
 
 void set_camera(char **line, t_camera_parse *camera)
@@ -109,7 +109,7 @@ int check_range(char *line, int count, const int range[2])
 		while (line_arr[i] && i < count)
 		{
 			if (!is_float(line_arr[i]))
-				return (free_array(line_arr), 0);
+				return (free_array_parse(line_arr), 0);
 			i++;
 		}
 	}
@@ -119,11 +119,11 @@ int check_range(char *line, int count, const int range[2])
 		while (line_arr[i] && i < count)
 		{
 			if (!is_float(line_arr[i]) && (ft_atoi(line_arr[i]) < range[0] || ft_atoi(line_arr[i]) > range[1]))
-				return (free_array(line_arr), 0);
+				return (free_array_parse(line_arr), 0);
 			i++;
 		}
 	}
-	free_array(line_arr);
+	free_array_parse(line_arr);
 	return (1);
 }
 
@@ -133,14 +133,14 @@ int parse_ambient(t_rt *rt, char *line)
 
 	line_data = ft_split(line, ' ');
 	if (line_data[3])
-		return (free_array(line_data), arg_error("ambient"));
+		return (free_array_parse(line_data), arg_error("ambient"));
 	if (check_range(line_data[1], 1, (int[]){0, 1}) && check_range(line_data[2], 3, (int[]){0, 255}))
 	{
 		set_ambient(line_data, &rt->ambient);
-		free_array(line_data);
+		free_array_parse(line_data);
 		return (1);
 	}
-	free_array(line_data);
+	free_array_parse(line_data);
 	return (0);
 }
 
@@ -150,14 +150,14 @@ int parse_camera(t_rt *rt, char *line)
 
 	line_data = ft_split(line, ' ');
 	if (line_data[4])
-		return (free_array(line_data), arg_error("camera"));
+		return (free_array_parse(line_data), arg_error("camera"));
 	if (check_range(line_data[1], 3, NULL) && check_range(line_data[2], 3, (int[]){-1, 1}) && check_range(line_data[3], 1, (int[]){0, 180}))
 	{
 		set_camera(line_data, &rt->camera);
-		free_array(line_data);
+		free_array_parse(line_data);
 		return (1);
 	}
-	free_array(line_data);
+	free_array_parse(line_data);
 	return (0);
 }
 
@@ -167,14 +167,14 @@ int parse_light(t_rt *rt, char *line)
 
 	line_data = ft_split(line, ' ');
 	if (line_data[3])
-		return (free_array(line_data), arg_error("light"));
+		return (free_array_parse(line_data), arg_error("light"));
 	if (check_range(line_data[1], 3, NULL) && check_range(line_data[2], 2, (int[]){0, 1}))
 	{
 		set_light(line_data, &rt->light);
-		free_array(line_data);
+		free_array_parse(line_data);
 		return (1);
 	}
-	free_array(line_data);
+	free_array_parse(line_data);
 	return (0);
 }
 

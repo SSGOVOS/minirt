@@ -124,6 +124,8 @@ int main(int ac, char **av)
 	vars.lights->color = (t_color){1 ,1 ,1};
 	list_object(&vars, rt);
 	mlx_loop_hook(vars.mlx_ptr, loop , &vars);
+	// mlx_hook(vars.win_ptr, 2, 1L << 0, key_hook, &vars);
+	// mlx_hook(vars.win_ptr, 17, 0, handle_exit, &vars);
 	mlx_loop(vars.mlx_ptr);
 	return (0);
 }
