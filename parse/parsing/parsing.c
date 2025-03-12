@@ -32,7 +32,7 @@ char *get_next_line(int fd)
 	return (line);
 }
 
-void set_direction(char *line, t_vector *directions)
+void set_direction(char *line, t_vec3 *directions)
 {
 	char **xyz;
 

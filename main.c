@@ -82,6 +82,13 @@ void raytrace(t_vars *vars)
 	printf("done\n");
 }
 
+static int	loop(t_vars *vars)
+{
+	raytrace(vars);
+	render(vars->image, vars->mlx_ptr, vars->win_ptr);
+	return (0);
+}
+
 int main(int ac, char **av)
 {
 	t_vars vars;
@@ -105,13 +112,18 @@ int main(int ac, char **av)
 	t_camera cam;
 	cam.origin = (t_vec3){rt->camera.position.x, rt->camera.position.z, rt->camera.position.z};
 	cam.lookat = (t_vec3){rt->camera.orientation.x, rt->camera.orientation.z, rt->camera.orientation.z};
+	cam.fov = rt->camera.fov;
 	setup_camera(&cam);
 	vars.ambient = rt->ambient;
 	t_vec3 temp = (t_vec3){vars.ambient.color.r, vars.ambient.color.g, vars.ambient.color.b};
 	temp = scale_vector(temp, vars.ambient.lighting);
 	vars.ambient.color = (t_color){temp.x, temp.y, temp.z};
 	vars.lights = malloc(sizeof(t_light));
+	vars.lights->position = rt->light.position;
+	vars.lights->brightness = rt->light.brightness;
+	vars.lights->color = (t_color){1 ,1 ,1};
 	list_object(&vars, rt);
-
+	mlx_loop_hook(vars.mlx_ptr, loop , &vars);
+	mlx_loop(vars.mlx_ptr);
 	return (0);
 }

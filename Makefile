@@ -1,6 +1,6 @@
 NAME = minirt
 
-CFLAGS = -Wall -Wextra -Werror -O2 -g3
+CFLAGS = -Wall -Wextra -Werror -O2 -g3 -fsanitize=address
 LDFLAGS = -Llibft -lft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 SRCS = main.c image.c vectors.c camera.c\

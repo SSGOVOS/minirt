@@ -1,8 +1,5 @@
 #include "main.h"
 
-
-void handle_cylinder();
-
 void prepare_objects(t_object *list, int obj_count)
 {
 	int i = 0;

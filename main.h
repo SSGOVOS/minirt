@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/12 03:03:31 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:46:45 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ typedef struct s_info
 }				t_info;
 
 
-
-
 typedef struct s_object
 {
 	int			type; // *
@@ -129,55 +127,55 @@ typedef enum e_type
 	CYLINDER_PARSE,
 }	t_type;
 
-typedef struct s_vector
-{
-	double	x;
-	double	y;
-	double	z;
-}	t_vector;
+// typedef struct s_vector
+// {
+// 	float	x;
+// 	float	y;
+// 	float	z;
+// }	t_vector;
 
 typedef struct s_color
 {
-	double	r;
-	double	g;
-	double	b;
+	float	r;
+	float	g;
+	float	b;
 }	t_color;
 
 
 typedef struct s_sphere
 {
-	t_vector	position;
-	double		diameter;
+	t_vec3	position;
+	float		diameter;
 	t_color		color;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	t_vector	position;
-	t_vector	direction;
+	t_vec3	position;
+	t_vec3	direction;
 	t_color		color;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	t_vector	position;
-	t_vector	direction;
-	double		diameter;
-	double		height;
+	t_vec3	position;
+	t_vec3	direction;
+	float		diameter;
+	float		height;
 	t_color		color;
 }	t_cylinder;
 
 typedef struct s_ambient
 {
-	double	lighting;
+	float	lighting;
 	t_color	color;
 }	t_ambient;
 
 typedef struct s_light
 {
-	t_vector	position;
+	t_vec3	position;
 	t_color		color;
-	double		brightness;
+	float		brightness;
 }	t_light;
 
 typedef struct s_img
@@ -193,9 +191,9 @@ typedef struct s_img
 
 typedef struct t_camera
 {
-	t_vector	position;
-	t_vector	orientation;
-	double		fov;
+	t_vec3	position;
+	t_vec3	orientation;
+	float		fov;
 }	t_camera_parse;
 
 typedef struct s_object_parse
@@ -203,7 +201,7 @@ typedef struct s_object_parse
 	t_type		type;
 	void		*object;
 	t_color		color;
-	t_vector	position;
+	t_vec3	position;
 	struct s_object_parse	*next;
 }	t_object_parse;
 
@@ -289,8 +287,8 @@ t_vec3	reflect(t_vec3 d, t_vec3 normal);
 
 // cylinder
 float	get_min(float *t, int *min_index, int size);
-int	calculate_props(int min_index, t_vec3 *poi, t_info *info, t_vec3 *vhat);
-int	test_cylinder(t_ray *ray, t_info *info);
+int		calculate_props(int min_index, t_vec3 *poi, t_info *info, t_vec3 *vhat);
+int		test_cylinder(t_ray *ray, t_info *info);
 
 
 //parse_functions --------------------------------------------------------------------------------------------------------------------------
@@ -311,7 +309,7 @@ int				array_length(char **arr);
 void			parsing_error(char *msg);
 int				is_float(const char *c);
 int				check_range(char *line, int count, const int range[2]);
-void			set_direction(char *line, t_vector *directions);
+void			set_direction(char *line, t_vec3 *directions);
 void			set_rgb(char *line, t_color *colors);
 int				parse_sphere(t_rt *rt, char *line);
 void			set_sphere(char **line, t_object_parse **object);
