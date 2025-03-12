@@ -3,22 +3,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int	handle_exit(t_vars *vars)
-{
-	free_objects(vars);
-	free_image(vars->image);
-	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
-	mlx_destroy_display(vars->mlx_ptr);
-	exit(0);
-	return (0);
-}
+// static int	handle_exit(t_vars *vars)
+// {
+// 	free_objects(vars);
+// 	free_image(vars->image);
+// 	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
+// 	mlx_destroy_display(vars->mlx_ptr);
+// 	exit(0);
+// 	return (0);
+// }
 
-static int	key_hook(int keycode, t_vars *vars)
-{
-	if (keycode == 65307)
-		handle_exit(vars);
-	return (0);
-}
+// static int	key_hook(int keycode, t_vars *vars)
+// {
+// 	if (keycode == 65307)
+// 		handle_exit(vars);
+// 	return (0);
+// }
 
 int test_intersection(t_object *list, t_info* info, t_ray *ray, int obj_count)
 {
@@ -87,26 +87,45 @@ int main(int ac, char **av)
 {
 	(void) ac;
 	(void) av;
-	t_vars vars;z
+	t_vars vars;
+	t_rt	*rt;
 
+	if (ac != 2)
+	{
+		// ft_putstr_fd("Error: invalid number of arguments\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	rt = (t_rt *)malloc(sizeof(t_rt));
+	if (rt == NULL)
+	{
+		perror("Failed to allocate memory for t_rt");
+		exit(EXIT_FAILURE);
+	}
 	vars.mlx_ptr = mlx_init();
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr,
 		WIDTH, HEIGHT, "miniRT");
+	rt->object_count = 0;
+	open_file(rt, av[1]);
+	parse_camera(rt , av[1]);
+	printf("camera origin : %f" , rt->camera.position.x);
+	printf("camera origin : %f" , rt->camera.position.y);
+	printf("camera origin : %f" , rt->camera.position.z);
+
 	// init camera values
-	vars.cam.origin = (t_vec3) {2, -20, -5};
-	vars.cam.lookat = (t_vec3) {0, 0, 0};
-	vars.cam.fov = 40;
-	setup_camera(&vars.cam);
-	vars.image = new_image();
-	vars.obj_count = 4;
-	list_object(&vars);
-	vars.lights = malloc(sizeof(t_light));
-	vars.lights[0].brightness = 1;
-	vars.lights[0].color = (t_vec3) {1, 1, 1};
-	vars.lights[0].position = (t_vec3) {0, -20, -5};
-	raytrace(&vars);
-	render(vars.image, vars.mlx_ptr, vars.win_ptr);
-	mlx_hook(vars.win_ptr, 2, 1L << 0, key_hook, &vars);
-	mlx_hook(vars.win_ptr, 17, 0, handle_exit, &vars);
-	mlx_loop(vars.mlx_ptr);
+	// vars.cam.origin = (t_vec3) {2, -20, -5};
+	// vars.cam.lookat = (t_vec3) {0, 0, 0};
+	// vars.cam.fov = 40;
+	// setup_camera(&vars.cam);
+	// vars.image = new_image();
+	// vars.obj_count = 4;
+	// list_object(&vars);
+	// vars.lights = malloc(sizeof(t_light));
+	// vars.lights[0].brightness = 1;
+	// vars.lights[0].color = (t_vec3) {1, 1, 1};
+	// vars.lights[0].position = (t_vec3) {0, -20, -5};
+	// raytrace(&vars);
+	// render(vars.image, vars.mlx_ptr, vars.win_ptr);
+	// mlx_hook(vars.win_ptr, 2, 1L << 0, key_hook, &vars);
+	// mlx_hook(vars.win_ptr, 17, 0, handle_exit, &vars);
+	// mlx_loop(vars.mlx_ptr);
 }
