@@ -87,7 +87,7 @@ int main(int ac, char **av)
 {
 	(void) ac;
 	(void) av;
-	t_vars vars;
+	t_vars vars;z
 
 	vars.mlx_ptr = mlx_init();
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr,
