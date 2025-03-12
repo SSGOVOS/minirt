@@ -1,0 +1,12 @@
+*.out
+*.o
+zizi
+logs
+*.a
+test*
+/trash
+miniRT
+/mlx
+/.idea
+/.vscode
+profiler
