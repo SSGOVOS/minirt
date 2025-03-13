@@ -5,6 +5,7 @@ void prepare_objects(t_object *list, int obj_count)
 	int i = 0;
 	while (i < obj_count)
 	{
+		printf("loop prepare\n");
 		if (list[i].type == SPHERE)
 		{
 			list[i].rotation = (t_vec3){0, 0, 0};
@@ -33,37 +34,37 @@ void prepare_objects(t_object *list, int obj_count)
 void list_object(t_vars* vars, t_rt *rt)
 {
 	
-	vars->objects = malloc(sizeof(t_object) * rt->object_count);
-	vars->obj_count = rt->object_count;
+	printf("object count = %i\n" , vars->obj_count);
+	vars->objects = malloc(sizeof(t_object) * vars->obj_count);
 	int i = 0;
 	t_object_parse *head = rt->object;
 	while (head)
 	{
 		if (head->type == SPHERE_PARSE)
 		{
-			t_sphere *sphere = (t_sphere*)(head);
+			t_sphere *sphere = (t_sphere*)(head->object);
 			vars->objects[i].type = SPHERE;
-			vars->objects[i].translation = (t_vec3){sphere->position.x, sphere->position.y, sphere->position.z};
+			vars->objects[i].translation = sphere->position;
 			vars->objects[i].base_color = (t_vec3){sphere->color.r, sphere->color.g, sphere->color.b};
 			vars->objects[i].radius = (float)(sphere->diameter) / 2.0f;
 		}
 		else if (head->type == PLANE_PARSE)
 		{
-			t_plane *plane = (t_plane*)(head);
+			t_plane *plane = (t_plane*)(head->object);
 			vars->objects[i].type = PLANE;
-			vars->objects[i].translation = (t_vec3){plane->position.x, plane->position.y, plane->position.z};
+			vars->objects[i].translation = plane->position;
 			vars->objects[i].base_color = (t_vec3){plane->color.r, plane->color.g, plane->color.b};
-			vars->objects[i].d_normal = (t_vec3){plane->direction.x, plane->direction.y, plane->direction.z};
+			vars->objects[i].d_normal = plane->direction;
 		}
 		else if (head->type == CYLINDER_PARSE)
 		{
-			t_cylinder *cylinder = (t_cylinder*)(head);
+			t_cylinder *cylinder = (t_cylinder*)(head->object);
 			vars->objects[i].type = CYLINDER;
-			vars->objects[i].translation = (t_vec3){cylinder->position.x, cylinder->position.y, cylinder->position.z};
+			vars->objects[i].translation = cylinder->position;
 			vars->objects[i].base_color = (t_vec3){cylinder->color.r, cylinder->color.g, cylinder->color.b};
 			vars->objects[i].radius = (float)(cylinder->diameter) / 2.0f;
 			vars->objects[i].height = cylinder->height;
-			vars->objects[i].d_normal = (t_vec3){cylinder->direction.x, cylinder->direction.y, cylinder->direction.z};
+			vars->objects[i].d_normal = cylinder->direction;
 		}
 		i++;
 		head = head->next;

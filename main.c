@@ -71,8 +71,7 @@ void raytrace(t_vars *vars)
 			if (intfound)
 			{
 				color = diffuse_color(&info, vars, &info.e->base_color);
-				t_vec3 ambient = (t_vec3) {0.12,0.084,0.048};
-				color = vec_add(color, scale_vector(ambient, 0.1f));
+				// t_vec3 am = (t_vec3){vars->ambient.color.r, vars->ambient.color.g, vars->ambient.color.b};
 				set_pixel(x, y, &color, vars->image);
 			}
 			x++;
@@ -82,12 +81,12 @@ void raytrace(t_vars *vars)
 	printf("done\n");
 }
 
-static int	loop(t_vars *vars)
-{
-	raytrace(vars);
-	render(vars->image, vars->mlx_ptr, vars->win_ptr);
-	return (0);
-}
+// static int	loop(t_vars *vars)
+// {
+// 	raytrace(vars);
+// 	render(vars->image, vars->mlx_ptr, vars->win_ptr);
+// 	return (0);
+// }
 
 int main(int ac, char **av)
 {
@@ -105,27 +104,37 @@ int main(int ac, char **av)
 		perror("Failed to allocate memory for t_rt");
 		exit(EXIT_FAILURE);
 	}
+	rt->object_count = 0;
 	open_file(rt, av[1]);
+	vars.obj_count = rt->object_count;
 	vars.mlx_ptr = mlx_init();
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr,
 		WIDTH, HEIGHT, "miniRT");
 	t_camera cam;
-	cam.origin = (t_vec3){rt->camera.position.x, rt->camera.position.z, rt->camera.position.z};
-	cam.lookat = (t_vec3){rt->camera.orientation.x, rt->camera.orientation.z, rt->camera.orientation.z};
+	cam.origin = rt->camera.position;
+	cam.lookat = rt->camera.orientation;
 	cam.fov = rt->camera.fov;
 	setup_camera(&cam);
+	vars.cam = cam;
 	vars.ambient = rt->ambient;
+
+	// printf("ambient red %f \n" , rt->ambient.color.r);
+	// printf("ambient green %f \n" , rt->ambient.color.g);
+	// printf("ambient blue %f \n" , rt->ambient.color.b);
+
+
 	t_vec3 temp = (t_vec3){vars.ambient.color.r, vars.ambient.color.g, vars.ambient.color.b};
 	temp = scale_vector(temp, vars.ambient.lighting);
 	vars.ambient.color = (t_color){temp.x, temp.y, temp.z};
 	vars.lights = malloc(sizeof(t_light));
 	vars.lights->position = rt->light.position;
 	vars.lights->brightness = rt->light.brightness;
-	vars.lights->color = (t_color){1 ,1 ,1};
+	vars.lights->color = (t_color){1, 1, 1};
 	list_object(&vars, rt);
-	mlx_loop_hook(vars.mlx_ptr, loop , &vars);
-	// mlx_hook(vars.win_ptr, 2, 1L << 0, key_hook, &vars);
-	// mlx_hook(vars.win_ptr, 17, 0, handle_exit, &vars);
+	raytrace(&vars);
 	mlx_loop(vars.mlx_ptr);
+	// vars.image = new_image();
+	// mlx_loop_hook(vars.mlx_ptr, loop , &vars);
+	// mlx_loop(vars.mlx_ptr);
 	return (0);
 }
