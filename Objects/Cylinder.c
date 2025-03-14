@@ -80,5 +80,11 @@ int	test_cylinder(t_ray *ray, t_info *info)
 	min_index = 0;
 	if (get_min(t, &min_index, 4) == FLT_MAX)
 		return (0);
-	return (calculate_props(min_index, &poi[min_index], info, &vhat));
+	int validint = calculate_props(min_index, &poi[min_index], info, &vhat);
+	if (validint && min_index >= 2)
+	{
+		if (dot_product(info->localnormal, ray->dir) > 0)
+			info->localnormal = scale_vector(info->localnormal, -1);
+	}
+	return validint;
 }

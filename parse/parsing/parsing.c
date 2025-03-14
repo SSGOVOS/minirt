@@ -43,14 +43,14 @@ void set_direction(char *line, t_vec3 *directions)
 	free_array_parse(xyz);
 }
 
-void set_rgb(char *line, t_color *colors)
+void set_rgb(char *line, t_vec3 *colors)
 {
 	char **rgb;
 
 	rgb = ft_split(line, ',');
-	colors->r = (float)ft_atoi(rgb[0]) / 255.0f;
-	colors->g = (float)ft_atoi(rgb[1]) / 255.0f;
-	colors->b = (float)ft_atoi(rgb[2]) / 255.0f;
+	colors->x = (float)ft_atoi(rgb[0]) / 255.0f;
+	colors->y = (float)ft_atoi(rgb[1]) / 255.0f;
+	colors->z = (float)ft_atoi(rgb[2]) / 255.0f;
 	free_array_parse(rgb);
 }
 

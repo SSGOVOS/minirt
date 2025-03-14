@@ -22,9 +22,7 @@ int	calculate_props(int min_index, t_vec3 *poi, t_info *info, t_vec3 *vhat)
 		if (sqrtf(powf(poi->x, 2) + powf(poi->y, 2)) < 1.0)
 		{
 			handle_caps(info, poi);
-			t_vec3 ray_dir = apply_transform_vector(*vhat, FORWARD, info->e->gtfm);
-			if (dot_product(info->localnormal, ray_dir) > 0)
-				info->localnormal = scale_vector(info->localnormal, -1);
+			// t_vec3 ray_dir = apply_transform_vector(*vhat, FORWARD, info->e->gtfm);
 			return (1);
 		}
 		return (0);

@@ -26,6 +26,7 @@ void prepare_objects(t_object *list, int obj_count)
 			list[i].scale = (t_vec3){list[i].radius, list[i].radius, list[i].height};
 			list[i].gtfm = set_transform(&list[i].translation, &list[i].rotation, &list[i].scale);
 			list[i].intersect = test_cylinder;
+			printf("cylinder found\n");
 		}
 		i++;
 	}
@@ -35,7 +36,6 @@ void prepare_objects(t_object *list, int obj_count)
 void list_object(t_vars* vars, t_rt *rt)
 {
 	
-	printf("object count = %i\n" , vars->obj_count);
 	vars->objects = malloc(sizeof(t_object) * vars->obj_count);
 	int i = 0;
 	t_object_parse *head = rt->object;
@@ -46,7 +46,7 @@ void list_object(t_vars* vars, t_rt *rt)
 			t_sphere *sphere = (t_sphere*)(head->object);
 			vars->objects[i].type = SPHERE;
 			vars->objects[i].translation = sphere->position;
-			vars->objects[i].base_color = (t_vec3){sphere->color.r, sphere->color.g, sphere->color.b};
+			vars->objects[i].base_color = sphere->color;
 			vars->objects[i].radius = (float)(sphere->diameter) / 2.0f;
 		}
 		else if (head->type == PLANE_PARSE)
@@ -54,7 +54,7 @@ void list_object(t_vars* vars, t_rt *rt)
 			t_plane *plane = (t_plane*)(head->object);
 			vars->objects[i].type = PLANE;
 			vars->objects[i].translation = plane->position;
-			vars->objects[i].base_color = (t_vec3){plane->color.r, plane->color.g, plane->color.b};
+			vars->objects[i].base_color = plane->color;
 			vars->objects[i].d_normal = plane->direction;
 		}
 		else if (head->type == CYLINDER_PARSE)
@@ -62,7 +62,7 @@ void list_object(t_vars* vars, t_rt *rt)
 			t_cylinder *cylinder = (t_cylinder*)(head->object);
 			vars->objects[i].type = CYLINDER;
 			vars->objects[i].translation = cylinder->position;
-			vars->objects[i].base_color = (t_vec3){cylinder->color.r, cylinder->color.g, cylinder->color.b};
+			vars->objects[i].base_color = cylinder->color;
 			vars->objects[i].radius = (float)(cylinder->diameter) / 2.0f;
 			vars->objects[i].height = cylinder->height;
 			vars->objects[i].d_normal = cylinder->direction;

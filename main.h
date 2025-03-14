@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/13 20:53:19 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/14 06:55:50 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,6 @@ enum
 	PLANE,
 	CYLINDER
 };
-
-typedef struct s_color
-{
-	float	r;
-	float	g;
-	float	b;
-}	t_color;
 
 typedef struct s_matrix
 {
@@ -146,14 +139,14 @@ typedef struct s_sphere
 {
 	t_vec3	position;
 	float		diameter;
-	t_color		color;
+	t_vec3		color;
 }	t_sphere;
 
 typedef struct s_plane
 {
 	t_vec3	position;
 	t_vec3	direction;
-	t_color		color;
+	t_vec3		color;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -162,19 +155,19 @@ typedef struct s_cylinder
 	t_vec3	direction;
 	float		diameter;
 	float		height;
-	t_color		color;
+	t_vec3		color;
 }	t_cylinder;
 
 typedef struct s_ambient
 {
 	float	lighting;
-	t_color	color;
+	t_vec3	color;
 }	t_ambient;
 
 typedef struct s_light
 {
 	t_vec3	position;
-	t_color		color;
+	t_vec3		color;
 	float		brightness;
 }	t_light;
 
@@ -200,7 +193,7 @@ typedef struct s_object_parse
 {
 	t_type		type;
 	void		*object;
-	t_color		color;
+	t_vec3		color;
 	t_vec3	position;
 	struct s_object_parse	*next;
 }	t_object_parse;
@@ -311,7 +304,7 @@ void			parsing_error(char *msg);
 int				is_float(const char *c);
 int				check_range(char *line, int count, const int range[2]);
 void			set_direction(char *line, t_vec3 *directions);
-void			set_rgb(char *line, t_color *colors);
+void			set_rgb(char *line, t_vec3 *colors);
 int				parse_sphere(t_rt *rt, char *line);
 void			set_sphere(char **line, t_object_parse **object);
 int				parse_plane(t_rt *rt, char *line);

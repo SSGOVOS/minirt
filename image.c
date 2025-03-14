@@ -51,8 +51,17 @@ void	my_mlx_put_pixel(t_data *img, int x, int y, unsigned int color)
 void	set_pixel(int x, int y, t_vec3 *color, t_image *image)
 {
 	image->red[y][x] = color->x; // red
+
+	printf("image red in set_pixel = %f \n" , image->red[y][x]);
+
 	image->green[y][x] = color->y; // green
+
+	printf("image green in set_pixel = %f \n" , image->green[y][x]);
+
 	image->blue[y][x] = color->z; // blue
+
+	printf("image blue in set_pixel = %f \n" , image->blue[y][x]);
+
 }
 
 unsigned int	rgb_to_int(float red, float green, float blue)
