@@ -70,6 +70,8 @@ void raytrace(t_vars *vars)
 			int intfound = test_intersection(vars->objects, &info, &ray, vars->obj_count);
 			if (intfound)
 			{
+				printf("int found \n");
+
 				color = diffuse_color(&info, vars, &info.e->base_color);
 				// t_vec3 am = (t_vec3){vars->ambient.color.r, vars->ambient.color.g, vars->ambient.color.b};
 				set_pixel(x, y, &color, vars->image);
@@ -131,9 +133,9 @@ int main(int ac, char **av)
 	vars.lights->brightness = rt->light.brightness;
 	vars.lights->color = (t_color){1, 1, 1};
 	list_object(&vars, rt);
+	vars.image = new_image();	
 	raytrace(&vars);
 	mlx_loop(vars.mlx_ptr);
-	// vars.image = new_image();
 	// mlx_loop_hook(vars.mlx_ptr, loop , &vars);
 	// mlx_loop(vars.mlx_ptr);
 	return (0);

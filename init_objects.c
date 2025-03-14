@@ -12,6 +12,7 @@ void prepare_objects(t_object *list, int obj_count)
 			list[i].scale = (t_vec3) {list[i].radius,list[i].radius, list[i].radius};
 			list[i].gtfm = set_transform(&list[i].translation, &list[i].rotation, &list[i].scale);
 			list[i].intersect = test_sphere;
+			printf("sphere found\n");
 		}
 		else if (list[i].type == PLANE)
 		{

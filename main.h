@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/13 05:06:37 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/13 20:53:19 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ enum
 	PLANE,
 	CYLINDER
 };
+
+typedef struct s_color
+{
+	float	r;
+	float	g;
+	float	b;
+}	t_color;
 
 typedef struct s_matrix
 {
@@ -133,13 +140,6 @@ typedef enum e_type
 // 	float	y;
 // 	float	z;
 // }	t_vector;
-
-typedef struct s_color
-{
-	float	r;
-	float	g;
-	float	b;
-}	t_color;
 
 
 typedef struct s_sphere

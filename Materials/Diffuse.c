@@ -16,6 +16,7 @@ static int	cast_ray(t_ray *lightray, t_vars *vars,
 		// skip current tested object, dont test intersection with itself because it will be true
 		if (info->e != &vars->objects[i])
 		{
+			printf("object found in cast_ray\n");
 			test.e = &vars->objects[i];
 			validint = vars->objects[i].intersect(lightray, &test);
 			if (validint)
@@ -82,6 +83,7 @@ t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color)
 			info, vars, &intensity);
 	if (validillum)
 	{
+		printf("valid int found\n");
 		illumfound = 1;
 		color.x = vars->lights[i].color.r * intensity;
 		color.y = vars->lights[i].color.g * intensity;
