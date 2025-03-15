@@ -11,13 +11,11 @@ static int	cast_ray(t_ray *lightray, t_vars *vars,
 
 	i = 0;
 	validint = 0;
-	printf("cast_ray function called with obj_count: %d\n\n", vars->obj_count);
 	while (i < vars->obj_count)
 	{
 		// skip current tested object, dont test intersection with itself because it will be true
 		if (info->e != &vars->objects[i])
 		{
-			printf("object found in cast_ray\n\n");
 			test.e = &vars->objects[i];
 			validint = vars->objects[i].intersect(lightray, &test);
 			if (validint)
@@ -57,8 +55,6 @@ int	compute_illimunation(t_light *light, t_info *info,
 	{
 		// calculate intensity based on angle between normal and light direction
 		*intensity = light->brightness * fmax(dot_product(lighdir, info->localnormal), 0.0);
-		printf("intensity = %f \n\n" , *intensity);
-
 		return (1);
 	}
 	else
@@ -84,31 +80,18 @@ t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color)
 	// for bonus replace 1 with light count
 	validillum = compute_illimunation(&vars->lights[i],
 			info, vars, &intensity);
-	
 	if (validillum)
 	{
 		illumfound = 1;
-		printf("color red = %f \n" ,vars->lights[i].color.x);
 		color.x = vars->lights[i].color.x * intensity;
-		printf("color x = %f \n" , color.x);
-		printf("color green = %f \n" ,vars->lights[i].color.y);
 		color.y = vars->lights[i].color.y * intensity;
-		printf("color y = %f \n" , color.y);
-		printf("color blue = %f \n" ,vars->lights[i].color.z);
 		color.z = vars->lights[i].color.z * intensity;
-		printf("color z = %f \n\n" , color.z);
 	}
 	if (illumfound)
 	{
-		printf("illumfound = %d \n\n" , illumfound);
-		printf("base color x = %f \n" , base_color->x);
-		printf("base color x = %f \n" , base_color->y);
-		printf("base color x = %f \n\n" , base_color->z);
-
 		diffuse = (t_vec3) {color.x * base_color->x,
 							color.y * base_color->y,
 							color.z * base_color->z};
-		print_vector(diffuse);
 	}
 	return (diffuse);
 }

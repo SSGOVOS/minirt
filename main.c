@@ -2,22 +2,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// static int	handle_exit(t_vars *vars)
-// {
-// 	free_objects(vars);
-// 	free_image(vars->image);
-// 	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
-// 	mlx_destroy_display(vars->mlx_ptr);
-// 	exit(0);
-// 	return (0);
-// }
+static int	handle_exit(t_vars *vars)
+{
+	// free_objects(vars);
+	// free_image(vars->image);
+	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
+	mlx_destroy_display(vars->mlx_ptr);
+	exit(0);
+	return (0);
+}
 
-// static int	key_hook(int keycode, t_vars *vars)
-// {
-// 	if (keycode == 65307)
-// 		handle_exit(vars);
-// 	return (0);
-// }
+static int	key_hook(int keycode, t_vars *vars)
+{
+	if (keycode == 65307)
+		handle_exit(vars);
+	return (0);
+}
 
 int test_intersection(t_object *list, t_info* info, t_ray *ray, int obj_count)
 {
@@ -70,8 +70,6 @@ void raytrace(t_vars *vars)
 			int intfound = test_intersection(vars->objects, &info, &ray, vars->obj_count);
 			if (intfound)
 			{
-				printf("int found \n\n");
-
 				color = diffuse_color(&info, vars, &info.e->base_color);
 				color = vec_add(color , vars->ambient.color);
 				// t_vec3 am = (t_vec3){vars->ambient.color.r, vars->ambient.color.g, vars->ambient.color.b};
@@ -120,12 +118,6 @@ int main(int ac, char **av)
 	setup_camera(&cam);
 	vars.cam = cam;
 	vars.ambient = rt->ambient;
-
-	// printf("ambient red %f \n" , rt->ambient.color.r);
-	// printf("ambient green %f \n" , rt->ambient.color.g);
-	// printf("ambient blue %f \n" , rt->ambient.color.b);
-
-
 	t_vec3 temp = (t_vec3){vars.ambient.color.x, vars.ambient.color.y, vars.ambient.color.z};
 	temp = scale_vector(temp, vars.ambient.lighting);
 	vars.ambient.color = (t_vec3){temp.x, temp.y, temp.z};
@@ -137,6 +129,8 @@ int main(int ac, char **av)
 	vars.image = new_image();
 	raytrace(&vars);
 	render(vars.image , vars.mlx_ptr , vars.win_ptr);
+	mlx_hook(vars.win_ptr, 2, 1L << 0, key_hook, &vars);
+	mlx_hook(vars.win_ptr, 17, 0, handle_exit, &vars);
 	mlx_loop(vars.mlx_ptr);
 	// mlx_loop_hook(vars.mlx_ptr, loop , &vars);
 	// mlx_loop(vars.mlx_ptr);

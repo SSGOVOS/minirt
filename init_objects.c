@@ -5,14 +5,12 @@ void prepare_objects(t_object *list, int obj_count)
 	int i = 0;
 	while (i < obj_count)
 	{
-		printf("loop prepare\n");
 		if (list[i].type == SPHERE)
 		{
 			list[i].rotation = (t_vec3){0, 0, 0};
 			list[i].scale = (t_vec3) {list[i].radius,list[i].radius, list[i].radius};
 			list[i].gtfm = set_transform(&list[i].translation, &list[i].rotation, &list[i].scale);
 			list[i].intersect = test_sphere;
-			printf("sphere found\n");
 		}
 		else if (list[i].type == PLANE)
 		{
@@ -26,7 +24,6 @@ void prepare_objects(t_object *list, int obj_count)
 			list[i].scale = (t_vec3){list[i].radius, list[i].radius, list[i].height};
 			list[i].gtfm = set_transform(&list[i].translation, &list[i].rotation, &list[i].scale);
 			list[i].intersect = test_cylinder;
-			printf("cylinder found\n");
 		}
 		i++;
 	}
