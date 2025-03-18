@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/15 05:44:51 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:02:55 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,24 +191,22 @@ typedef struct t_camera
 
 typedef struct s_object_parse
 {
-	t_type		type;
-	void		*object;
-	t_vec3		color;
-	t_vec3	position;
+	t_type					type;
+	t_vec3					color;
+	t_vec3					position;
+	void					*object;
 	struct s_object_parse	*next;
 }	t_object_parse;
 
 typedef struct s_rt
 {
-	void		*mlx;
-	void		*win;
-	int			file_fd;
-	int			object_count;
-	char		*file;
-	t_ambient	ambient;
+	int				file_fd;
+	int				object_count;
+	char			*file;
+	t_ambient		ambient;
 	t_camera_parse	camera;
-	t_img		img;
-	t_light		light;
+	t_img			img;
+	t_light			light;
 	t_object_parse	*object;
 }	t_rt;
 
@@ -216,12 +214,13 @@ typedef struct s_vars
 {
 	void			*mlx_ptr;
 	void			*win_ptr;
+	int				file_fd;
 	t_image			*image;
 	t_camera		cam;
-	int obj_count;
-	t_object* objects;
-	t_light* lights;
-	t_ambient ambient;
+	int				obj_count;
+	t_object*		objects;
+	t_light*		lights;
+	t_ambient		ambient;
 }	t_vars;
 
 // vectors
@@ -289,10 +288,10 @@ void	free_image(t_image *image);
 
 void			ft_add_back(t_object_parse **list, t_object_parse *new, int type);
 int				check_file(t_rt *rt);
-void			list_objects(t_rt *rt);
+// void			list_objects(t_rt *rt);
 int				arg_error(char *msg);
 int				is_rt_file(char *path);
-int				destroy(t_rt *rt);
+// int				destroy(t_rt *rt);
 void			open_file(t_rt *rt, char *path);
 void			free_objects_parse(t_object_parse *object);
 int				main(int ac, char **av);
@@ -302,7 +301,8 @@ void			free_array_parse(char *arr[]);
 int				array_length(char **arr);
 void			parsing_error(char *msg);
 int				is_float(const char *c);
-int				check_range(char *line, int count, const int range[2]);
+int				check_between(char *line, int count, const int range[2]);
+int				check_range(char *line, int count);
 void			set_direction(char *line, t_vec3 *directions);
 void			set_rgb(char *line, t_vec3 *colors);
 int				parse_sphere(t_rt *rt, char *line);
@@ -315,6 +315,11 @@ int				parse_ambient(t_rt *rt, char *line);
 void			set_ambient(char **line, t_ambient *ambient);
 int				parse_camera(t_rt *rt, char *line);
 void			set_camera(char **line, t_camera_parse *camera);
+int				valid_line(char *arg);
+int				parse_light(t_rt *rt, char *line);
+int				parse_obj(t_rt *rt, char *first_arg, char *line);
+void			set_light(char **line, t_light *light);
+char			*get_next_line(int fd);
 
 // Debugging functions
 // void			show_sphere(t_sphere *sphere);

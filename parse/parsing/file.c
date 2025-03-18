@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:59:01 by zelbassa          #+#    #+#             */
-/*   Updated: 2025/03/12 16:59:50 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:07:01 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../main.h"
 
-void open_file(t_rt *rt, char *path)
+void	open_file(t_rt *rt, char *path)
 {
+	rt->object = NULL;
 	rt->file_fd = open(path, O_RDONLY);
 	rt->file = path;
 	if (check_file(rt) == 1 || parse(rt) == 1)
@@ -28,7 +29,7 @@ void open_file(t_rt *rt, char *path)
 	}
 }
 
-int check_file(t_rt *rt)
+int	check_file(t_rt *rt)
 {
 	if (rt->file == NULL)
 	{
@@ -48,9 +49,9 @@ int check_file(t_rt *rt)
 	return (0);
 }
 
-int is_rt_file(char *path)
+int	is_rt_file(char *path)
 {
-	int len;
+	int	len;
 
 	len = (int)ft_strlen(path) - 3;
 	if (len > 3)

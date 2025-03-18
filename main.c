@@ -112,6 +112,7 @@ int main(int ac, char **av)
 	vars.win_ptr = mlx_new_window(vars.mlx_ptr,
 		WIDTH, HEIGHT, "miniRT");
 	t_camera cam;
+	vars.file_fd = rt->file_fd;
 	cam.origin = rt->camera.position;
 	cam.lookat = rt->camera.orientation;
 	cam.fov = rt->camera.fov;

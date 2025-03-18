@@ -20,11 +20,12 @@ SRCS = main.c image.c vectors.c camera.c\
 
 SRCS +=	parse/parsing/atoi_double.c \
 		parse/parsing/file.c \
-		parse/parsing/init.c \
 		parse/parsing/parse_objects.c \
 		parse/parsing/parsing_utils.c \
 		parse/parsing/parsing.c \
-		parse/parsing/set_objects.c
+		parse/parsing/set_objects.c \
+		parse/parsing/set_data.c \
+		parse/parsing/parsing_utils_1.c
 
 
 OBJS = $(SRCS:.c=.o)

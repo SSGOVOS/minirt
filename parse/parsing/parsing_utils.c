@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 13:13:25 by zelbassa          #+#    #+#             */
+/*   Updated: 2025/03/18 16:06:14 by zelbassa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../main.h"
 
-int array_length(char **arr)
+int	array_length(char **arr)
 {
-	int length;
+	int	length;
 
 	length = 0;
 	while (arr[length])
@@ -10,18 +22,18 @@ int array_length(char **arr)
 	return (length);
 }
 
-int arg_error(char *msg)
+int	arg_error(char *msg)
 {
 	printf("Error: too many arguments for %s\n", msg);
 	return (0);
 }
 
-void ft_add_back(t_object_parse **list, t_object_parse *new, int type)
+void	ft_add_back(t_object_parse **list, t_object_parse *new, int type)
 {
-	t_object_parse *temp;
+	t_object_parse	*temp;
 
 	if (new == NULL)
-		return;
+		return ;
 	new->type = type;
 	if (*list == NULL)
 	{
@@ -38,9 +50,9 @@ void ft_add_back(t_object_parse **list, t_object_parse *new, int type)
 	}
 }
 
-void free_array_parse(char *arr[])
+void	free_array_parse(char *arr[])
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arr)
@@ -51,15 +63,16 @@ void free_array_parse(char *arr[])
 	}
 }
 
-void free_objects_parse(t_object_parse *object)
+void	free_objects_parse(t_object_parse *object)
 {
-	t_object_parse *temp;
+	t_object_parse	*temp;
 
+	if (!object)
+		return ;
 	while (object)
 	{
 		temp = object;
 		object = object->next;
-		//		if (temp->type == SPHERE)
 		free(temp->object);
 		free(temp);
 	}
