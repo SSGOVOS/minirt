@@ -44,7 +44,7 @@ int	check_between(char *line, int count, const int range[2])
 	{
 		if (!is_float(line_arr[i])
 			&& (ft_atoi(line_arr[i]) < range[0]
-			|| ft_atoi(line_arr[i]) > range[1]))
+				|| ft_atoi(line_arr[i]) > range[1]))
 			return (free_array_parse(line_arr), 0);
 		i++;
 	}

@@ -3,7 +3,7 @@ NAME = minirt
 CFLAGS = -Wall -Wextra -Werror -O2 -g3 -g
 LDFLAGS = -Llibft -lft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
-SRCS = main.c image.c vectors.c camera.c\
+SRCS = main.c image.c image_utils.c vectors.c camera.c\
 		Objects/Sphere.c \
 		Objects/Plane.c \
 		Objects/Cylinder.c \

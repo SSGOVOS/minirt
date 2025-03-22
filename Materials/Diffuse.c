@@ -13,7 +13,6 @@ static int	cast_ray(t_ray *lightray, t_vars *vars,
 	validint = 0;
 	while (i < vars->obj_count)
 	{
-		// skip current tested object, dont test intersection with itself because it will be true
 		if (info->e != &vars->objects[i])
 		{
 			test.e = &vars->objects[i];
@@ -21,12 +20,9 @@ static int	cast_ray(t_ray *lightray, t_vars *vars,
 			if (validint)
 			{
 				dist = length(vec_sub(test.hitpoint, info->hitpoint));
-				// test if the distance is bigger than the light dist
-				// meaning the object we intersected with is either behind the light or between them
 				if (dist > lighdist)
 					validint = 0;
 			}
-			// break in case of intersection, one is enough to determine there is a shadow
 			if (validint)
 				break ;
 		}
@@ -59,7 +55,6 @@ int	compute_illimunation(t_light *light, t_info *info,
 	}
 	else
 	{
-		// means there was an object blocking the light on that point of the object
 		*intensity = 0.0f;
 		return (0);
 	}
@@ -68,16 +63,20 @@ int	compute_illimunation(t_light *light, t_info *info,
 
 t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color)
 {
+	int illumfound;
+	t_vec3 color; 
+	t_vec3 diffuse;
+	float intensity;
+	int validillum;
 
-	int illumfound = 0;
-	t_vec3 color =  (t_vec3) {0, 0, 0};
-	t_vec3 diffuse =  (t_vec3) {0, 0, 0};
-	float intensity = 0;
-	int validillum = 0;
+	validillum = 0;
+	intensity = 0;
+	diffuse =  (t_vec3) {0, 0, 0};
+	color =  (t_vec3) {0, 0, 0};
+	illumfound = 0;
 	int	i;
 
 	i = 0;
-	// for bonus replace 1 with light count
 	validillum = compute_illimunation(&vars->lights[i],
 			info, vars, &intensity);
 	if (validillum)
