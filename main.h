@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/22 06:37:17 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/22 08:07:39 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,24 @@ typedef struct s_matrix
 
 typedef struct s_camera
 {
-	t_vec3 origin;         // parse *
-	t_vec3 lookat;         // parse *
-	t_vec3 camera_w;       // forward unit vector of the camera
-	t_vec3 camera_u;       // right unit vector of the camera
-	t_vec3 camera_v;       // up unit vector of the camera
-	t_vec3 screen_center;  // center of the screen facing the camera
-	float fov;             // fov parse in degree *
-	float aspect_ratio;    // aspect ratio of the screen (width / height)
-	float horizontal_size; // width of the screen
-	t_vec3 screen_u;       // right vector of screen center
-	t_vec3 screen_v;       // up vector of screen center
+	t_vec3					origin;			// parse *
+	t_vec3					lookat;			// parse *
+	t_vec3					camera_w;		// forward unit vector of the camera
+	t_vec3					camera_u;		// right unit vector of the camera
+	t_vec3					camera_v;		// up unit vector of the camera
+	t_vec3					screen_center;
+	float					fov;			// fov parse in degree *
+	float					aspect_ratio;
+	float					horizontal_size;// width of the screen
+	t_vec3					screen_u;		// right vector of screen center
+	t_vec3					screen_v;		// up vector of screen center
 }							t_camera;
 
 typedef struct s_ray
 {
-	t_vec3 point1; // origin
-	t_vec3 point2; // dir
-	t_vec3 dir;    // dir normalized
+	t_vec3					point1;			// origin
+	t_vec3					point2;			// dir
+	t_vec3					dir;			// dir normalized
 }							t_ray;
 
 typedef struct s_image
@@ -93,24 +93,24 @@ typedef struct s_info
 {
 	struct s_object			*e;
 	t_vec3					hitpoint;
-	t_vec3					localnormal;
+	t_vec3					localn;
 }							t_info;
 
 typedef struct s_object
 {
-	int type;           // *
-	t_vec3 base_color;  //*
-	float radius;       // only used in sphere *
-	t_vec3 translation; // *
+	int						type;
+	t_vec3					base_color;
+	float					radius;
+	t_vec3					translation;
 	t_vec3					rotation;
 	t_vec3					scale;
 	float					height;
 	t_matrix				**gtfm;
-	t_vec3 d_normal; // used for plane and cylinder and cone
+	t_vec3					d_normal;
 	int						(*intersect)(t_ray *, struct s_info *);
 }							t_object;
 
-// parse_structs ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// parse_structs --------------------------------------------------------------
 
 typedef enum e_type
 {
@@ -214,6 +214,40 @@ typedef struct s_vars
 	t_ambient				ambient;
 }							t_vars;
 
+typedef struct s_intersect_data
+{
+	t_info					*test;
+	t_info					*info;
+	t_ray					*ray;
+	float					*mindist;
+}							t_intersect_data;
+
+typedef struct s_ray_data
+{
+	float					xfact;
+	float					yfact;
+	t_vec3					color;
+	t_info					info;
+	t_ray					ray;
+}							t_ray_data;
+
+typedef struct s_cylinder_data
+{
+	t_ray					back_ray;
+	t_vec3					vhat;
+	float					t[4];
+	t_vec3					poi[4];
+	int						min_index;
+}							t_cylinder_data;
+
+typedef struct s_diffuse_data
+{
+	float					intensity;
+	t_vec3					color;
+	t_vec3					diffuse;
+	int						illumfound;
+}							t_diffuse_data;
+
 // vectors
 float						dot_product(t_vec3 a, t_vec3 b);
 t_vec3						cross_product(t_vec3 a, t_vec3 b);
@@ -262,8 +296,8 @@ t_matrix					*rotation_matrix_x(float angle);
 t_matrix					*rotation_matrix_z(float angle);
 t_matrix					*translation_matrix(t_vec3 *translation);
 t_matrix					*scale_matrix(t_vec3 *scal);
-t_matrix					**set_transform(t_vec3 *translation,
-								t_vec3 *rotation, t_vec3 *scale);
+t_matrix					**set_transform(t_vec3 *translation, t_vec3 *rotat,
+								t_vec3 *scale);
 t_vec3						apply_transform_vector(t_vec3 inputVector,
 								int dirFlag, t_matrix **gtfm);
 t_ray						apply_transform(t_ray *input_ray, t_matrix **gtfm,
@@ -282,9 +316,14 @@ int							test_cylinder(t_ray *ray, t_info *info);
 // free_utils
 void						free_objects(t_vars *vars);
 void						free_image(t_image *image);
+// intersection
+int							test_intersection(t_object *list, t_info *info,
+								t_ray *ray, int obj_count);
+void						raytrace(t_vars *vars);
+// prepare_object
+void						prepare_objects(t_object *list, int obj_count);
 
-// parse_functions --------------------------------------------------------------------------------------------------------------------------
-
+// parse_functions --------------------------------------------------------
 void						ft_add_back(t_object_parse **list,
 								t_object_parse *new, int type);
 int							check_file(t_rt *rt);

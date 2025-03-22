@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Sphere.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/22 07:45:06 by amoubine          #+#    #+#             */
+/*   Updated: 2025/03/22 07:48:26 by amoubine         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
 float	get_dist(t_vec3 ray_org, t_vec3 vhat) // vhat is the ray dir normalized
@@ -8,7 +20,6 @@ float	get_dist(t_vec3 ray_org, t_vec3 vhat) // vhat is the ray dir normalized
 	float	t1;
 	float	t2;
 
-	// these calculations are based on sphere pos is 0,0,0 and radius is 1
 	b = 2.0 * dot_product(ray_org, vhat);
 	c = dot_product(ray_org, ray_org) - 1.0f;
 	delta = pow(b, 2) - (4.0 * c);
@@ -26,19 +37,20 @@ float	get_dist(t_vec3 ray_org, t_vec3 vhat) // vhat is the ray dir normalized
 	return (FLT_MAX);
 }
 
-int test_sphere(t_ray * ray,  struct s_info *info)
+int	test_sphere(t_ray *ray, struct s_info *info)
 {
-	t_ray backray = apply_transform(ray, info->e->gtfm, BACKWARD);
-	t_vec3 vhat = backray.dir;
-	float t = get_dist(backray.point1, vhat);
+	t_ray	backray;
+	t_vec3	vhat;
+	float	t;
+	t_vec3	localint;
+
+	backray = apply_transform(ray, info->e->gtfm, BACKWARD);
+	vhat = backray.dir;
+	t = get_dist(backray.point1, vhat);
 	if (t == FLT_MAX)
 		return (0);
-	// int point = ray = origin + dir * t (t is found now)
-	t_vec3 localint = vec_add(backray.point1, scale_vector(vhat, t));
+	localint = vec_add(backray.point1, scale_vector(vhat, t));
 	info->hitpoint = apply_transform_vector(localint, FORWARD, info->e->gtfm);
-	// transform the inpoint to world coordinates
-	info->localnormal = normalize(vec_sub(info->hitpoint, info->e->translation));
-	// normal of sphere is normalized(hitpoint - sphere origin)
-	// for sphere at 0.0.0 just normalized(hitpoint)
-	return 1;
+	info->localn = normalize(vec_sub(info->hitpoint, info->e->translation));
+	return (1);
 }

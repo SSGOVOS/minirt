@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 06:37:00 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/22 06:37:28 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/22 07:21:21 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,79 +25,6 @@ static int	key_hook(int keycode, t_vars *vars)
 	if (keycode == 65307)
 		handle_exit(vars);
 	return (0);
-}
-
-int	test_intersection(t_object *list, t_info *info, t_ray *ray, int obj_count)
-{
-	float	mindist;
-	float	dist;
-	int		intfound;
-	int		validint;
-	t_info	test;
-	int		i;
-
-	intfound = 0;
-	validint = 0;
-	mindist = 1e6;
-	i = 0;
-	while (i < obj_count)
-	{
-		test.e = list + i;
-		validint = list[i].intersect(ray, &test);
-		if (validint)
-		{
-			intfound = 1;
-			dist = length(vec_sub(test.hitpoint, ray->point1));
-			if (dist < mindist)
-			{
-				mindist = dist;
-				info->e = list + i;
-				info->hitpoint = test.hitpoint;
-				info->localnormal = test.localnormal;
-			}
-		}
-		i++;
-	}
-	return (intfound);
-}
-
-void	raytrace(t_vars *vars)
-{
-	int		x;
-	int		y;
-	float	xfact;
-	float	yfact;
-	t_vec3	color;
-	t_info	info;
-	float	normx;
-	float	normy;
-	t_ray	ray;
-	int		intfound;
-
-	xfact = 2.0f / (float)WIDTH;
-	yfact = 2.0f / (float)HEIGHT;
-	color = (t_vec3){0, 0, 0};
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			normx = ((float)x * xfact) - 1.0;
-			normy = ((float)y * yfact) - 1.0;
-			ray = generate_ray(normx, normy, &vars->cam);
-			intfound = test_intersection(vars->objects, &info, &ray,
-					vars->obj_count);
-			if (intfound)
-			{
-				color = diffuse_color(&info, vars, &info.e->base_color);
-				color = vec_add(color, vars->ambient.color);
-				set_pixel(x, y, &color, vars->image);
-			}
-			x++;
-		}
-		y++;
-	}
 }
 
 t_rt	*initialize_rt(char *filename)

@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Cylinder.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/22 07:36:15 by amoubine          #+#    #+#             */
+/*   Updated: 2025/03/22 07:44:42 by amoubine         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 #include <math.h>
-
 
 int	get_t2(t_ray *back_ray, t_vec3 *vhat, float *t, t_vec3 *poi)
 {
@@ -68,23 +79,21 @@ void	get_distance2(t_ray *back_ray, t_vec3 *vhat, float *t, t_vec3 *poi)
 
 int	test_cylinder(t_ray *ray, t_info *info)
 {
-	t_ray	back_ray;
-	t_vec3	vhat;
-	float	t[4];
-	t_vec3	poi[4];
-	int		min_index;
+	t_cylinder_data	data;
+	int				validint;
 
-	back_ray = apply_transform(ray, info->e->gtfm, BACKWARD);
-	vhat = normalize(back_ray.dir);
-	get_distance2(&back_ray, &vhat, t, poi);
-	min_index = 0;
-	if (get_min(t, &min_index, 4) == FLT_MAX)
+	data.back_ray = apply_transform(ray, info->e->gtfm, BACKWARD);
+	data.vhat = normalize(data.back_ray.dir);
+	data.min_index = 0;
+	get_distance2(&data.back_ray, &data.vhat, data.t, data.poi);
+	if (get_min(data.t, &data.min_index, 4) == FLT_MAX)
 		return (0);
-	int validint = calculate_props(min_index, &poi[min_index], info, &vhat);
-	if (validint && min_index >= 2)
+	validint = calculate_props(data.min_index, &data.poi[data.min_index], info,
+			&data.vhat);
+	if (validint && data.min_index >= 2)
 	{
-		if (dot_product(info->localnormal, ray->dir) > 0)
-			info->localnormal = scale_vector(info->localnormal, -1);
+		if (dot_product(info->localn, ray->dir) > 0)
+			info->localn = scale_vector(info->localn, -1);
 	}
-	return validint;
+	return (validint);
 }

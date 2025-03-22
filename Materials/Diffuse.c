@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Diffuse.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/22 07:50:54 by amoubine          #+#    #+#             */
+/*   Updated: 2025/03/22 07:58:06 by amoubine         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
-
-static int	cast_ray(t_ray *lightray, t_vars *vars,
-		float lighdist, t_info *info)
+static int	cast_ray(t_ray *lightray, t_vars *vars, float lighdist,
+		t_info *info)
 {
 	int		i;
 	int		validint;
@@ -31,26 +42,22 @@ static int	cast_ray(t_ray *lightray, t_vars *vars,
 	return (validint);
 }
 
-int	compute_illimunation(t_light *light, t_info *info,
-		t_vars *vars, float *intensity)
+int	compute_illimunation(t_light *light, t_info *info, t_vars *vars,
+		float *intensity)
 {
 	t_vec3	lighdir;
 	t_ray	lightray;
 	float	lighdist;
 	int		validint;
 
-	// make a normal vector pointing the direction from intpoint to the light 
 	lighdir = normalize(vec_sub(light->position, info->hitpoint));
-	// calculate distance so we dont render objects behind the light
 	lighdist = length(vec_sub(light->position, info->hitpoint));
-	// make ray (intpoint, direction to light)
 	lightray = new_ray(info->hitpoint, vec_add(info->hitpoint, lighdir));
-	// test intersection of all objects in the scene
 	validint = cast_ray(&lightray, vars, lighdist, info);
 	if (!validint)
 	{
-		// calculate intensity based on angle between normal and light direction
-		*intensity = light->brightness * fmax(dot_product(lighdir, info->localnormal), 0.0);
+		*intensity = light->brightness * fmax(dot_product(lighdir,
+					info->localn), 0.0);
 		return (1);
 	}
 	else
@@ -61,36 +68,37 @@ int	compute_illimunation(t_light *light, t_info *info,
 	return (0);
 }
 
-t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color)
+static void	process_light(t_diffuse_data *data, t_light *light,
+	t_info *info, t_vars *vars)
 {
-	int illumfound;
-	t_vec3 color; 
-	t_vec3 diffuse;
-	float intensity;
-	int validillum;
+	int	validillum;
 
-	validillum = 0;
-	intensity = 0;
-	diffuse =  (t_vec3) {0, 0, 0};
-	color =  (t_vec3) {0, 0, 0};
-	illumfound = 0;
-	int	i;
-
-	i = 0;
-	validillum = compute_illimunation(&vars->lights[i],
-			info, vars, &intensity);
+	validillum = compute_illimunation(light, info, vars, &data->intensity);
 	if (validillum)
 	{
-		illumfound = 1;
-		color.x = vars->lights[i].color.x * intensity;
-		color.y = vars->lights[i].color.y * intensity;
-		color.z = vars->lights[i].color.z * intensity;
+		data->illumfound = 1;
+		data->color.x = light->color.x * data->intensity;
+		data->color.y = light->color.y * data->intensity;
+		data->color.z = light->color.z * data->intensity;
 	}
-	if (illumfound)
+}
+
+t_vec3	diffuse_color(t_info *info, t_vars *vars, t_vec3 *base_color)
+{
+	t_diffuse_data	data;
+
+	data.intensity = 0;
+	data.diffuse = (t_vec3){0, 0, 0};
+	data.color = (t_vec3){0, 0, 0};
+	data.illumfound = 0;
+	process_light(&data, &vars->lights[0], info, vars);
+	if (data.illumfound)
 	{
-		diffuse = (t_vec3) {color.x * base_color->x,
-							color.y * base_color->y,
-							color.z * base_color->z};
+		data.diffuse = (t_vec3){
+			data.color.x * base_color->x,
+			data.color.y * base_color->y,
+			data.color.z * base_color->z
+		};
 	}
-	return (diffuse);
+	return (data.diffuse);
 }

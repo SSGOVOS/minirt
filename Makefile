@@ -3,7 +3,8 @@ NAME = minirt
 CFLAGS = -Wall -Wextra -Werror -O2 -g3 -g
 LDFLAGS = -Llibft -lft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
-SRCS = main.c image.c image_utils.c vectors.c camera.c\
+SRCS = main.c image.c image_utils.c intersec_utils.c\
+		vectors.c vectors_2.c camera.c prepare_object.c\
 		Objects/Sphere.c \
 		Objects/Plane.c \
 		Objects/Cylinder.c \
@@ -26,7 +27,7 @@ SRCS +=	parse/parsing/atoi_double.c \
 		parse/parsing/set_objects.c \
 		parse/parsing/set_data.c \
 		parse/parsing/parsing_utils_1.c
-
+		
 
 OBJS = $(SRCS:.c=.o)
 
