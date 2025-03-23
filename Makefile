@@ -1,6 +1,6 @@
 NAME = minirt
 
-CFLAGS = -Wall -Wextra -Werror -O2 -g3 -g
+CFLAGS = -Wall -Wextra -Werror -O2 -g3 -g #-fsanitize=address
 LDFLAGS = -Llibft -lft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 SRCS = main.c image.c image_utils.c intersec_utils.c\
@@ -20,14 +20,14 @@ SRCS = main.c image.c image_utils.c intersec_utils.c\
 		init_objects.c \
 		Materials/Diffuse.c \
 
-SRCS +=	parse/parsing/atoi_double.c \
-		parse/parsing/file.c \
-		parse/parsing/parse_objects.c \
-		parse/parsing/parsing_utils.c \
-		parse/parsing/parsing.c \
-		parse/parsing/set_objects.c \
-		parse/parsing/set_data.c \
-		parse/parsing/parsing_utils_1.c
+SRCS +=	parsing/atoi_double.c \
+		parsing/file.c \
+		parsing/parse_objects.c \
+		parsing/parsing_utils.c \
+		parsing/parsing.c \
+		parsing/set_objects.c \
+		parsing/set_data.c \
+		parsing/parsing_utils_1.c
 		
 
 OBJS = $(SRCS:.c=.o)

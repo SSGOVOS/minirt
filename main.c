@@ -3,21 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 06:37:00 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/23 07:31:45 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/23 22:53:10 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+/* int	destroy(t_rt *rt)
+{
+	if (rt == NULL)
+	{
+		printf("Error: rt is NULL\n");
+		return (1);
+	}
+	if (rt->img.img != NULL)
+	{
+		mlx_destroy_image(rt->mlx, rt->img.img);
+		rt->img.img = NULL;
+	}
+	if (rt->win != NULL)
+	{
+		mlx_destroy_window(rt->mlx, rt->win);
+		rt->win = NULL;
+	}
+	if (rt->mlx != NULL)
+		mlx_destroy_display(rt->mlx);
+	if (rt->mlx)
+		free(rt->mlx);
+	if (rt->object)
+		free_objects(rt->object);
+	if (rt->file_fd > 0)
+		close(rt->file_fd);
+	while (rt->light)
+	{
+		t_light	*temp;
+
+		temp = rt->light;
+		rt->light = rt->light->next;
+		free(temp);
+	}
+	free(rt);
+	exit(0);
+}
+
+ */
 static int	handle_exit(t_vars *vars)
 {
 	free_objects(vars);
 	free_image(vars->image);
+	// mlx_destroy_image(vars->mlx_ptr, vars->image);
 	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
 	mlx_destroy_display(vars->mlx_ptr);
+	free_objects_parse(vars->rt->object);
+	free(vars->rt);
 	exit(0);
 	return (0);
 }
@@ -85,6 +126,7 @@ int	main(int ac, char **av)
 	}
 	rt = initialize_rt(av[1]);
 	vars = initialize_vars(rt);
+	vars.rt = rt;
 	raytrace(&vars);
 	render(vars.image, vars.mlx_ptr, vars.win_ptr);
 	mlx_hook(vars.win_ptr, 2, 1L << 0, key_hook, &vars);

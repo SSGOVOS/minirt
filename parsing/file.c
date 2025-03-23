@@ -6,11 +6,11 @@
 /*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:59:01 by zelbassa          #+#    #+#             */
-/*   Updated: 2025/03/18 16:07:01 by zelbassa         ###   ########.fr       */
+/*   Updated: 2025/03/23 22:31:38 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../main.h"
+#include "../main.h"
 
 void	open_file(t_rt *rt, char *path)
 {

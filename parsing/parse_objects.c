@@ -6,11 +6,17 @@
 /*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:25:45 by zelbassa          #+#    #+#             */
-/*   Updated: 2025/03/18 14:31:17 by zelbassa         ###   ########.fr       */
+/*   Updated: 2025/03/23 22:49:04 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../main.h"
+#include "../main.h"
+
+void	parsing_error(char *message)
+{
+	ft_putstr_fd("Error: ", 2);
+	ft_putendl_fd(message, 2);
+}
 
 int	parse_cylinder(t_rt *rt, char *line)
 {

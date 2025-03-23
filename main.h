@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/22 08:07:39 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/23 22:54:16 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define M_PI 3.14159265358979323846
 # define HALFPI 1.5708
 # define FLT_MAX 3.40282346638528859811704183484516925e+38F
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 50
+# define HEIGHT 50
 # define EPSILON 1e-21f
 # define BACKWARD 0
 # define FORWARD 1
@@ -211,6 +211,8 @@ typedef struct s_vars
 	int						obj_count;
 	t_object				*objects;
 	t_light					*lights;
+	t_rt					*rt;
+	t_img					img;
 	t_ambient				ambient;
 }							t_vars;
 

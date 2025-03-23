@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:14:00 by zelbassa          #+#    #+#             */
-/*   Updated: 2025/03/23 07:21:16 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/23 22:48:54 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../main.h"
+#include "../main.h"
 
 int	parse_ambient(t_rt *rt, char *line)
 {
@@ -49,12 +49,24 @@ int	parse_camera(t_rt *rt, char *line)
 	return (0);
 }
 
+static int	line_count(char **line)
+{
+	int	i;
+
+	i = 0;
+	while ((*line)[i])
+		i++;
+	return (i);
+}
+
 int	parse_light(t_rt *rt, char *line)
 {
 	char	**line_data;
 
 	line_data = ft_split(line, ' ');
-	if (line_data[4])
+	// if (line_data[4])
+	// 	return (free_array_parse(line_data), arg_error("light"));
+	if (line_count(line_data) > 4)
 		return (free_array_parse(line_data), arg_error("light"));
 	if (check_range(line_data[1], 3)
 		&& check_between(line_data[2], 2, (int []){0, 1}))
@@ -65,12 +77,6 @@ int	parse_light(t_rt *rt, char *line)
 	}
 	free_array_parse(line_data);
 	return (0);
-}
-
-void	parsing_error(char *message)
-{
-	ft_putstr_fd("Error: ", 2);
-	ft_putendl_fd(message, 2);
 }
 
 int	valid_line(char *arg)
