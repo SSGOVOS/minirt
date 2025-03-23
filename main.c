@@ -6,7 +6,7 @@
 /*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 06:37:00 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/22 07:21:21 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/23 07:31:45 by amoubine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	handle_exit(t_vars *vars)
 {
+	free_objects(vars);
+	free_image(vars->image);
 	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
 	mlx_destroy_display(vars->mlx_ptr);
 	exit(0);

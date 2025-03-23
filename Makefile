@@ -5,6 +5,7 @@ LDFLAGS = -Llibft -lft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX
 
 SRCS = main.c image.c image_utils.c intersec_utils.c\
 		vectors.c vectors_2.c camera.c prepare_object.c\
+		free_objects.c \
 		Objects/Sphere.c \
 		Objects/Plane.c \
 		Objects/Cylinder.c \
