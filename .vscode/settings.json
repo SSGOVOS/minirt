@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "main.h": "c",
-        "random": "c"
-    }
+		"*.rt": "r",
+		"main.h": "c",
+		"random": "c",
+		"format": "c"
+	}
 }

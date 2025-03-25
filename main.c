@@ -6,7 +6,7 @@
 /*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 06:37:00 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/25 14:21:33 by zelbassa         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:48:36 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ t_rt	*initialize_rt(char *filename)
 	t_rt	*rt;
 
 	rt = (t_rt *)malloc(sizeof(t_rt));
+	rt->has_ambient = 0;
+	rt->has_camera = 0;
+	rt->has_light = 0;
 	if (rt == NULL)
 	{
 		perror("Failed to allocate memory for t_rt");

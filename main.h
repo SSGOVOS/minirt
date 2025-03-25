@@ -6,7 +6,7 @@
 /*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:31:45 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/23 22:54:16 by zelbassa         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:47:59 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,9 @@ typedef struct s_rt
 	int						file_fd;
 	int						object_count;
 	char					*file;
+	int						has_ambient;
+	int						has_camera;
+	int						has_light;
 	t_ambient				ambient;
 	t_camera_parse			camera;
 	t_img					img;
@@ -249,6 +252,13 @@ typedef struct s_diffuse_data
 	t_vec3					diffuse;
 	int						illumfound;
 }							t_diffuse_data;
+
+typedef struct s_arg_count
+{
+	int C;
+	int	L;
+	int	A;
+}	t_arg_count;
 
 // vectors
 float						dot_product(t_vec3 a, t_vec3 b);
@@ -360,5 +370,6 @@ int							parse_light(t_rt *rt, char *line);
 int							parse_obj(t_rt *rt, char *first_arg, char *line);
 void						set_light(char **line, t_light *light);
 char						*get_next_line(int fd);
+int							line_count(char **line);
 
 #endif

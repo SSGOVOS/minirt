@@ -6,7 +6,7 @@
 /*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:13:25 by zelbassa          #+#    #+#             */
-/*   Updated: 2025/03/23 22:31:38 by zelbassa         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:34:43 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	array_length(char **arr)
 
 int	arg_error(char *msg)
 {
-	printf("Error: too many arguments for %s\n", msg);
+	printf("Error: wrong number of arguments %s\n", msg);
 	return (0);
 }
 
