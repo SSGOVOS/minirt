@@ -6,7 +6,7 @@
 /*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:14:00 by zelbassa          #+#    #+#             */
-/*   Updated: 2025/03/23 22:48:54 by zelbassa         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:20:18 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ int	parse_light(t_rt *rt, char *line)
 	char	**line_data;
 
 	line_data = ft_split(line, ' ');
-	// if (line_data[4])
-	// 	return (free_array_parse(line_data), arg_error("light"));
 	if (line_count(line_data) > 4)
 		return (free_array_parse(line_data), arg_error("light"));
 	if (check_range(line_data[1], 3)
