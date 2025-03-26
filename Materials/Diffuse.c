@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Diffuse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoubine <amoubine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zelbassa <zelbassa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 07:50:54 by amoubine          #+#    #+#             */
-/*   Updated: 2025/03/22 07:58:06 by amoubine         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:37:33 by zelbassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	compute_illimunation(t_light *light, t_info *info, t_vars *vars,
 	validint = cast_ray(&lightray, vars, lighdist, info);
 	if (!validint)
 	{
-		*intensity = light->brightness * fmax(dot_product(lighdir,
-					info->localn), 0.0);
+		*intensity = light->brightness * fmax(0.0, dot_product(lighdir,
+					info->localn));
 		return (1);
 	}
 	else
